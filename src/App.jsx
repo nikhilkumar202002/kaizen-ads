@@ -1,6 +1,7 @@
 import Header from './components/layout/Header'
 import Hero from './components/home/Hero'
 import About from './components/home/About'
+import ServiceCards from './components/home/ServiceCards'
 import FeaturedPortfolio from './components/home/FeaturedPortfolio'
 
 const App = () => {
@@ -11,6 +12,8 @@ const App = () => {
         <Hero />
         <About />
         <FeaturedPortfolio />
+        <ServiceCards />
+
       </main>
     </div>
   )
