@@ -16,15 +16,14 @@ const wordOffsets = words.map((word) => {
 })
 
 const Character = ({ char, progress, range }) => {
-  const opacity = useTransform(progress, range, [0.15, 1])
   const color = useTransform(
     progress,
     range,
-    ['rgba(0, 0, 0, 0.15)', 'rgba(0, 0, 0, 1)']
+    ['#d1d5db', '#000000'] // Smooth transition from light grey to black
   )
 
   return (
-    <motion.span style={{ opacity, color }} className="inline">
+    <motion.span style={{ color }} className="inline">
       {char}
     </motion.span>
   )
@@ -71,7 +70,7 @@ const About = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Sub Heading: About Us */}
         <div className="flex items-center gap-2.5 mb-8 sm:mb-12">
-          <span className="w-2.5 h-2.5 rounded-full bg-primary" />
+          <span className="w-2.5 h-2.5 bg-primary" />
           <span className="font-heading text-xs sm:text-sm font-semibold uppercase tracking-widest text-primary">
             About Us
           </span>
