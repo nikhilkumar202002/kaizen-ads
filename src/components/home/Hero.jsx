@@ -1,10 +1,12 @@
+import Button from '../ui/Button'
+
 const Hero = () => {
-  const steps = [
-    { num: '//01', label: 'Understand' },
-    { num: '//02', label: 'Strategize' },
-    { num: '//03', label: 'Execute' },
-    { num: '//04', label: 'Measure' },
-    { num: '//05', label: 'Improve' },
+  const keywords = [
+    'Understand',
+    'Strategize',
+    'Execute',
+    'Measure',
+    'Improve',
   ]
 
   return (
@@ -24,36 +26,39 @@ const Hero = () => {
           </h1>
         </div>
 
-        {/* Bottom Section: Left Description + Right Connected Keywords */}
+        {/* Bottom Section: Left (Description + CTAs) & Right (Keywords) */}
         <div className="pt-8 sm:pt-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end">
           
-          {/* Left Side: Description */}
-          <div className="lg:col-span-6 xl:col-span-6">
+          {/* Left Side: Description & Action Buttons */}
+          <div className="lg:col-span-7 xl:col-span-7 flex flex-col space-y-6">
             <p className="font-sans text-white/85 text-base sm:text-lg md:text-[18px] leading-relaxed max-w-xl">
               Kaizen Ads is a growth marketing partner. We learn your business first, build the strategy, then bring in only the services that strategy calls for.
             </p>
+
+            {/* Hero CTAs */}
+            <div className="flex flex-wrap items-center gap-4 sm:gap-5 pt-1">
+              <Button
+                href="#contact"
+                variant="primary"
+                text="Book a discovery call"
+              />
+              <Button
+                href="#about"
+                variant="outline"
+                text="How we think"
+              />
+            </div>
           </div>
 
-          {/* Right Side: Keywords with connecting lines */}
-          <div className="lg:col-span-6 xl:col-span-5 xl:col-start-8 flex flex-col space-y-2 sm:space-y-2.5">
-            {steps.map((item) => (
-              <div
-                key={item.num}
-                className="flex items-center gap-3 sm:gap-4 py-0.5 sm:py-1 group"
+          {/* Right Side: Keywords */}
+          <div className="lg:col-span-5 xl:col-span-5 flex flex-col items-start lg:items-end space-y-1.5 sm:space-y-2">
+            {keywords.map((word) => (
+              <span
+                key={word}
+                className="text-white text-base sm:text-lg md:text-xl font-normal tracking-wide transition-colors hover:text-primary cursor-default"
               >
-                {/* Number Prefix */}
-                <span className="text-white/50 text-xs sm:text-sm font-mono tracking-wider transition-colors group-hover:text-white">
-                  {item.num}
-                </span>
-
-                {/* Thin Horizontal Connecting Line */}
-                <span className="flex-1 h-px bg-white/20 transition-colors group-hover:bg-white/40" />
-
-                {/* Keyword Label */}
-                <span className="text-white text-sm sm:text-base font-normal tracking-wide whitespace-nowrap transition-colors group-hover:text-white">
-                  {item.label}
-                </span>
-              </div>
+                {word}
+              </span>
             ))}
           </div>
 

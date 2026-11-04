@@ -68,7 +68,7 @@ const Button = ({
     },
     // Transparent with white border (for dark sections)
     outline: {
-      base: 'bg-transparent border-white/40 text-white group-hover:border-white',
+      base: 'bg-transparent border-white text-white',
       slider: 'bg-white',
       hoverText: 'group-hover:text-black',
     },
