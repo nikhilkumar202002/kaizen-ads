@@ -19,34 +19,40 @@ const Button = ({
 
   // Size variations
   const sizeStyles = {
-    sm: 'px-4 py-2.5 text-xs gap-3',
-    md: 'px-6 py-3.5 text-sm gap-4',
-    lg: 'px-8 py-4.5 text-base gap-5',
+    sm: 'px-4 py-2 gap-3',
+    md: 'px-6 py-3.5 gap-4',
+    lg: 'px-8 py-4.5 gap-5',
   }
 
   // Square icon box sizing
   const iconBoxSizes = {
-    sm: 'w-5 h-5 text-xs',
-    md: 'w-6 h-6 text-sm',
-    lg: 'w-7 h-7 text-base',
+    sm: 'w-5 h-5 text-sm',
+    md: 'w-6 h-6 text-base',
+    lg: 'w-7 h-7 text-lg',
   }
 
-  // Color variants (all with square edges - rounded-none)
+  // Variant color definitions
   const variantStyles = {
     primary:
-      'bg-primary text-white border border-primary hover:bg-primary-hover active:bg-[#99001c]',
+      'bg-primary border-primary text-white group-hover:text-black',
     secondary:
-      'bg-zinc-900 text-white border border-zinc-800 hover:bg-zinc-800',
+      'bg-zinc-950 border-zinc-800 text-white group-hover:text-black',
     outline:
-      'bg-transparent text-white border border-white/30 hover:border-white hover:bg-white/10',
+      'bg-transparent border-white/40 text-white group-hover:text-black group-hover:border-white',
     outlinePrimary:
-      'bg-transparent text-primary border border-primary hover:bg-primary hover:text-white',
+      'bg-transparent border-primary text-primary group-hover:text-white',
     white:
-      'bg-white text-black border border-white hover:bg-zinc-100',
+      'bg-white border-white text-black group-hover:text-white',
   }
 
+  // Fill animation background color based on variant
+  const sliderBgColor =
+    variant === 'outlinePrimary' || variant === 'white'
+      ? 'bg-primary'
+      : 'bg-white'
+
   const baseStyles =
-    'inline-flex items-center justify-between font-heading font-semibold uppercase tracking-wider rounded-none transition-all duration-300 group cursor-pointer select-none disabled:opacity-50 disabled:cursor-not-allowed'
+    'relative overflow-hidden inline-flex items-center justify-between font-heading font-normal text-[17px] uppercase tracking-wider rounded-none border transition-all duration-300 group cursor-pointer select-none disabled:opacity-50 disabled:cursor-not-allowed'
 
   const buttonClasses = `${baseStyles} ${sizeStyles[size] || sizeStyles.md} ${
     variantStyles[variant] || variantStyles.primary
@@ -54,7 +60,7 @@ const Button = ({
 
   const iconElement = showIcon && Icon && (
     <span
-      className={`inline-flex items-center justify-center rounded-none bg-black/15 group-hover:bg-black/25 transition-all duration-300 ${
+      className={`relative z-10 inline-flex items-center justify-center rounded-none bg-black/15 group-hover:bg-black/10 transition-all duration-300 ${
         iconBoxSizes[size] || iconBoxSizes.md
       }`}
     >
@@ -62,11 +68,28 @@ const Button = ({
     </span>
   )
 
+  const contentElement = (
+    <>
+      {/* Smooth left-to-right white filling layer */}
+      <span
+        aria-hidden="true"
+        className={`absolute inset-0 ${sliderBgColor} -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out pointer-events-none`}
+      />
+
+      {/* Button text on top */}
+      <span className="relative z-10 transition-colors duration-300">
+        {content}
+      </span>
+
+      {/* Button icon on top */}
+      {iconElement}
+    </>
+  )
+
   if (href) {
     return (
       <a href={href} className={buttonClasses} {...props}>
-        <span>{content}</span>
-        {iconElement}
+        {contentElement}
       </a>
     )
   }
@@ -79,8 +102,7 @@ const Button = ({
       className={buttonClasses}
       {...props}
     >
-      <span>{content}</span>
-      {iconElement}
+      {contentElement}
     </button>
   )
 }
