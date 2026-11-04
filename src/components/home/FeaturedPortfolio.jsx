@@ -210,7 +210,7 @@ const FeaturedPortfolio = () => {
         <div className="mt-8 sm:mt-12 text-center">
           <Button
             href="#contact"
-            variant="outline"
+            variant="primary"
             text="Explore All Work"
           />
         </div>
