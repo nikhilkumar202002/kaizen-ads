@@ -32,7 +32,7 @@ const Header = () => {
               <a
                 key={item.label}
                 href={item.href}
-                className="text-white/90 hover:text-primary text-sm font-medium tracking-wide transition-colors duration-200"
+                className="font-heading text-[17px] font-normal text-white/90 hover:text-primary tracking-wide transition-colors duration-200"
               >
                 {item.label}
               </a>
@@ -41,7 +41,7 @@ const Header = () => {
 
           {/* Right Side: Contact Button & 2-Line Hamburger Menu */}
           <div className="flex items-center gap-4 sm:gap-6">
-            <Button href="#contact" variant="primary" size="sm">
+            <Button href="#contact" variant="primary">
               Contact
             </Button>
 
@@ -79,7 +79,7 @@ const Header = () => {
               key={item.label}
               href={item.href}
               onClick={() => setIsOpen(false)}
-              className="text-white/90 hover:text-primary text-base font-medium py-1 transition-colors"
+              className="font-heading text-[17px] font-normal text-white/90 hover:text-primary py-1 transition-colors"
             >
               {item.label}
             </a>

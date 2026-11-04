@@ -16,18 +16,11 @@ const Button = ({
 }) => {
   const content = text || children
 
-  // Size variations
+  // Size variations (default md has 16px top-bottom, 30px left-right padding)
   const sizeStyles = {
-    sm: 'px-4 py-2 gap-3',
-    md: 'px-6 py-3.5 gap-4',
-    lg: 'px-8 py-4.5 gap-5',
-  }
-
-  // Square icon box sizing
-  const iconBoxSizes = {
-    sm: 'w-5 h-5 text-sm',
-    md: 'w-6 h-6 text-base',
-    lg: 'w-7 h-7 text-lg',
+    sm: 'py-2.5 px-5 gap-2.5',
+    md: 'py-[16px] px-[30px] gap-3',
+    lg: 'py-5 px-9 gap-4',
   }
 
   // Variant color definitions
@@ -51,20 +44,14 @@ const Button = ({
       : 'bg-white'
 
   const baseStyles =
-    'relative overflow-hidden inline-flex items-center justify-between font-heading font-normal text-[17px] uppercase tracking-wider rounded-none border transition-all duration-300 group cursor-pointer select-none disabled:opacity-50 disabled:cursor-not-allowed'
+    'relative overflow-hidden inline-flex items-center justify-between font-heading font-normal text-[17px] capitalize tracking-normal rounded-none border transition-all duration-300 group cursor-pointer select-none disabled:opacity-50 disabled:cursor-not-allowed'
 
   const buttonClasses = `${baseStyles} ${sizeStyles[size] || sizeStyles.md} ${
     variantStyles[variant] || variantStyles.primary
   } ${className}`
 
   const iconElement = showIcon && Icon && (
-    <span
-      className={`relative z-10 inline-flex items-center justify-center rounded-none bg-black/15 group-hover:bg-black/10 transition-all duration-300 ${
-        iconBoxSizes[size] || iconBoxSizes.md
-      }`}
-    >
-      <Icon className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-    </span>
+    <Icon className="relative z-10 text-[18px] transition-all duration-300 group-hover:text-black group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
   )
 
   const contentElement = (
@@ -76,7 +63,7 @@ const Button = ({
       />
 
       {/* Button text on top */}
-      <span className="relative z-10 transition-colors duration-300">
+      <span className="relative z-10 transition-colors duration-300 group-hover:text-black">
         {content}
       </span>
 
