@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import Button from '../ui/Button'
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -40,12 +41,9 @@ const Header = () => {
 
           {/* Right Side: Contact Button & 2-Line Hamburger Menu */}
           <div className="flex items-center gap-4 sm:gap-6">
-            <a
-              href="#contact"
-              className="inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-primary hover:bg-primary-hover text-white text-sm font-medium tracking-wide shadow-md shadow-primary/20 transition-all duration-300 hover:shadow-lg hover:shadow-primary/30 active:scale-95 cursor-pointer"
-            >
+            <Button href="#contact" variant="primary" size="sm">
               Contact
-            </a>
+            </Button>
 
             {/* 2-Line Hamburger Menu Button */}
             <button
@@ -87,13 +85,15 @@ const Header = () => {
             </a>
           ))}
           <div className="pt-2">
-            <a
+            <Button
               href="#contact"
+              variant="primary"
+              size="md"
+              className="w-full justify-center"
               onClick={() => setIsOpen(false)}
-              className="inline-block text-center w-full px-5 py-2.5 rounded-full bg-primary hover:bg-primary-hover text-white text-sm font-medium transition-all"
             >
               Contact
-            </a>
+            </Button>
           </div>
         </div>
       </div>
