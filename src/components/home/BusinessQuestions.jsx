@@ -87,37 +87,38 @@ const BusinessQuestions = () => {
                 </p>
               </div>
 
-              {/* The Two Question Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+              {/* The Two Question Cards (Boxed Layout, Image on Top, Arrow Box in Middle of Bottom Line) */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 pb-8">
                 
                 {/* Question Card 1: Launching New */}
                 <button
                   type="button"
                   onClick={() => handleSelectQuestion('launch')}
-                  className="group text-left relative p-7 sm:p-9 lg:p-10 rounded-2xl bg-[#f8f8fa] hover:bg-white border border-neutral-200 hover:border-primary shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden min-h-[240px] sm:min-h-[260px]"
+                  className="group text-center relative p-8 sm:p-10 lg:p-12 pb-14 sm:pb-16 rounded-none bg-[#f8f8fa] hover:bg-white border border-neutral-200 hover:border-primary shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col items-center justify-between min-h-[340px] sm:min-h-[380px]"
                 >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 w-full">
-                    <div className="flex-1 pr-0 sm:pr-4">
-                      <div className="flex items-center gap-3 mb-3">
-                        <h3 className="font-heading text-2xl sm:text-3xl font-medium text-neutral-900 group-hover:text-primary transition-colors duration-200">
-                          I’m launching something new
-                        </h3>
-                        <span className="p-2 rounded-full bg-neutral-200/70 text-neutral-700 group-hover:bg-primary group-hover:text-white transition-all duration-300 shrink-0">
-                          <FiArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                        </span>
-                      </div>
-                      <p className="font-sans text-sm sm:text-base text-neutral-500 leading-relaxed max-w-sm">
-                        A new business, product or brand that needs to go to market.
-                      </p>
-                    </div>
+                  {/* 3D Object PNG on Top of Content - Rotates left continuously on hover */}
+                  <div className="w-full flex items-center justify-center mb-6 sm:mb-8">
+                    <img
+                      src="/Objects/me-ser1.png"
+                      alt="Launching illustration"
+                      className="w-28 sm:w-32 lg:w-36 h-auto object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.12)] transition-transform duration-500 group-hover:scale-105 group-hover:[animation:spin-left_10s_linear_infinite]"
+                    />
+                  </div>
 
-                    {/* 3D Object PNG - Rotates left continuously on hover */}
-                    <div className="shrink-0 flex items-center justify-center self-end sm:self-center">
-                      <img
-                        src="/Objects/me-ser1.png"
-                        alt="Launching illustration"
-                        className="w-24 sm:w-28 lg:w-32 h-auto object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.12)] transition-transform duration-500 group-hover:scale-105 group-hover:[animation:spin-left_10s_linear_infinite]"
-                      />
+                  {/* Content below Image */}
+                  <div className="w-full max-w-sm mx-auto">
+                    <h3 className="font-heading text-2xl sm:text-3xl font-medium text-neutral-900 group-hover:text-primary transition-colors duration-200 mb-3">
+                      I’m launching something new
+                    </h3>
+                    <p className="font-sans text-sm sm:text-base text-neutral-500 leading-relaxed">
+                      A new business, product or brand that needs to go to market.
+                    </p>
+                  </div>
+
+                  {/* Boxed Arrow Icon on Middle of Bottom Line */}
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-20 pointer-events-none">
+                    <div className="w-12 h-12 rounded-none bg-white border border-neutral-200 group-hover:border-primary group-hover:bg-primary text-neutral-800 group-hover:text-white flex items-center justify-center transition-all duration-300 shadow-md">
+                      <FiArrowUpRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </div>
                   </div>
                 </button>
@@ -126,30 +127,31 @@ const BusinessQuestions = () => {
                 <button
                   type="button"
                   onClick={() => handleSelectQuestion('grow')}
-                  className="group text-left relative p-7 sm:p-9 lg:p-10 rounded-2xl bg-[#f8f8fa] hover:bg-white border border-neutral-200 hover:border-primary shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden min-h-[240px] sm:min-h-[260px]"
+                  className="group text-center relative p-8 sm:p-10 lg:p-12 pb-14 sm:pb-16 rounded-none bg-[#f8f8fa] hover:bg-white border border-neutral-200 hover:border-primary shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col items-center justify-between min-h-[340px] sm:min-h-[380px]"
                 >
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 w-full">
-                    <div className="flex-1 pr-0 sm:pr-4">
-                      <div className="flex items-center gap-3 mb-3">
-                        <h3 className="font-heading text-2xl sm:text-3xl font-medium text-neutral-900 group-hover:text-primary transition-colors duration-200">
-                          I already have a business
-                        </h3>
-                        <span className="p-2 rounded-full bg-neutral-200/70 text-neutral-700 group-hover:bg-primary group-hover:text-white transition-all duration-300 shrink-0">
-                          <FiArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                        </span>
-                      </div>
-                      <p className="font-sans text-sm sm:text-base text-neutral-500 leading-relaxed max-w-sm">
-                        Something that’s running and ready to grow or improve.
-                      </p>
-                    </div>
+                  {/* 3D Object PNG on Top of Content - Rotates left continuously on hover */}
+                  <div className="w-full flex items-center justify-center mb-6 sm:mb-8">
+                    <img
+                      src="/Objects/met-ser2.png"
+                      alt="Growing business illustration"
+                      className="w-28 sm:w-32 lg:w-36 h-auto object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.12)] transition-transform duration-500 group-hover:scale-105 group-hover:[animation:spin-left_10s_linear_infinite]"
+                    />
+                  </div>
 
-                    {/* 3D Object PNG - Rotates left continuously on hover */}
-                    <div className="shrink-0 flex items-center justify-center self-end sm:self-center">
-                      <img
-                        src="/Objects/met-ser2.png"
-                        alt="Growing business illustration"
-                        className="w-24 sm:w-28 lg:w-32 h-auto object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.12)] transition-transform duration-500 group-hover:scale-105 group-hover:[animation:spin-left_10s_linear_infinite]"
-                      />
+                  {/* Content below Image */}
+                  <div className="w-full max-w-sm mx-auto">
+                    <h3 className="font-heading text-2xl sm:text-3xl font-medium text-neutral-900 group-hover:text-primary transition-colors duration-200 mb-3">
+                      I already have a business
+                    </h3>
+                    <p className="font-sans text-sm sm:text-base text-neutral-500 leading-relaxed">
+                      Something that’s running and ready to grow or improve.
+                    </p>
+                  </div>
+
+                  {/* Boxed Arrow Icon on Middle of Bottom Line */}
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-20 pointer-events-none">
+                    <div className="w-12 h-12 rounded-none bg-white border border-neutral-200 group-hover:border-primary group-hover:bg-primary text-neutral-800 group-hover:text-white flex items-center justify-center transition-all duration-300 shadow-md">
+                      <FiArrowUpRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </div>
                   </div>
                 </button>
@@ -185,7 +187,7 @@ const BusinessQuestions = () => {
                       const next = selectedOption === 'launch' ? 'grow' : 'launch'
                       handleSelectQuestion(next)
                     }}
-                    className="inline-flex items-center gap-2 font-sans text-xs sm:text-sm text-neutral-600 hover:text-black bg-neutral-100 hover:bg-neutral-200/80 px-4 py-2 rounded-full border border-neutral-200 transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-2 font-sans text-xs sm:text-sm text-neutral-600 hover:text-black bg-neutral-100 hover:bg-neutral-200/80 px-4 py-2 rounded-none border border-neutral-200 transition-colors cursor-pointer"
                   >
                     <span>
                       Switch to: {selectedOption === 'launch' ? 'I already have a business' : 'I’m launching something new'}
@@ -194,7 +196,7 @@ const BusinessQuestions = () => {
                 </div>
               </div>
 
-              {/* 6 Step Choosing Cards with Functional Click Selection */}
+              {/* 6 Step Choosing Cards with Functional Click Selection (Boxed Layout) */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mb-10 sm:mb-12">
                 {activeContent.steps.map((step, idx) => {
                   const isSelected = selectedSteps.includes(step.number)
@@ -206,7 +208,7 @@ const BusinessQuestions = () => {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.3, delay: idx * 0.04 }}
                       onClick={() => toggleStep(step.number)}
-                      className={`group text-left relative p-6 sm:p-7 rounded-xl border transition-all duration-200 flex flex-col justify-between min-h-[150px] sm:min-h-[170px] cursor-pointer ${
+                      className={`group text-left relative p-6 sm:p-7 rounded-none border transition-all duration-200 flex flex-col justify-between min-h-[150px] sm:min-h-[170px] cursor-pointer ${
                         isSelected
                           ? 'bg-white border-primary shadow-md shadow-primary/5 ring-1 ring-primary'
                           : 'bg-[#f8f8fa] hover:bg-white border-neutral-200/80 hover:border-neutral-300 shadow-xs'
@@ -222,9 +224,9 @@ const BusinessQuestions = () => {
                           {step.number}
                         </span>
 
-                        {/* Interactive Checkmark Circle */}
+                        {/* Interactive Checkmark Box (Square / Boxed Layout) */}
                         <span
-                          className={`w-6 h-6 rounded-full flex items-center justify-center transition-all duration-200 ${
+                          className={`w-6 h-6 rounded-none flex items-center justify-center transition-all duration-200 ${
                             isSelected
                               ? 'bg-primary text-white scale-100 shadow-xs'
                               : 'border border-neutral-300 bg-neutral-100/70 text-transparent group-hover:border-neutral-400'
