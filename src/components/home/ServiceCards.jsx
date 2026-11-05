@@ -60,11 +60,10 @@ const ServiceCards = () => {
       {/* Main Content Container */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Left-Aligned Section Heading with 80px Left Margin (no subheading, no description) */}
+        {/* Left-Aligned Section Heading with Left Margin */}
         <div className="mb-12 sm:mb-16 lg:mb-20 ml-0 sm:ml-8 lg:ml-[120px]">
           <h2 className="font-heading text-3xl sm:text-5xl md:text-6xl font-normal leading-[1.15] tracking-tight text-white">
-            Everything your growth <br className="hidden sm:inline" />
-            <span className="text-primary">strategy</span> calls for.
+            Everything your growth <span className="text-primary">strategy</span> calls for.
           </h2>
         </div>
 
@@ -81,7 +80,7 @@ const ServiceCards = () => {
                 delay: index * 0.1,
                 ease: [0.215, 0.61, 0.355, 1],
               }}
-              className="group relative aspect-[3/4] w-full overflow-hidden bg-zinc-950 border border-white/10 rounded-none cursor-pointer flex flex-col justify-between p-6 sm:p-7"
+              className="group relative aspect-[3/4] w-full overflow-hidden bg-zinc-950 rounded-none cursor-pointer flex flex-col justify-between p-6 sm:p-7"
             >
               {/* Background Image (Reveals & zooms on hover) */}
               <img
@@ -114,7 +113,7 @@ const ServiceCards = () => {
               </div>
 
               {/* Bottom Area: Description */}
-              <div className="relative z-10 pt-4 border-t border-white/10 group-hover:border-white/20 transition-colors">
+              <div className="relative z-10 pt-4">
                 <p className="font-sans text-xs sm:text-sm text-white/65 group-hover:text-white/85 leading-relaxed transition-colors duration-300">
                   {service.description}
                 </p>
