@@ -94,20 +94,31 @@ const BusinessQuestions = () => {
                 <button
                   type="button"
                   onClick={() => handleSelectQuestion('launch')}
-                  className="group text-left relative p-8 sm:p-10 lg:p-12 rounded-2xl bg-[#f8f8fa] hover:bg-white border border-neutral-200 hover:border-primary shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between"
+                  className="group text-left relative p-7 sm:p-9 lg:p-10 rounded-2xl bg-[#f8f8fa] hover:bg-white border border-neutral-200 hover:border-primary shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden min-h-[240px] sm:min-h-[260px]"
                 >
-                  <div>
-                    <div className="flex items-start justify-between gap-4 mb-4">
-                      <h3 className="font-heading text-2xl sm:text-3xl font-medium text-neutral-900 group-hover:text-primary transition-colors duration-200">
-                        I’m launching something new
-                      </h3>
-                      <span className="p-2.5 rounded-full bg-neutral-200/70 text-neutral-700 group-hover:bg-primary group-hover:text-white transition-all duration-300 shrink-0">
-                        <FiArrowUpRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                      </span>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 w-full">
+                    <div className="flex-1 pr-0 sm:pr-4">
+                      <div className="flex items-center gap-3 mb-3">
+                        <h3 className="font-heading text-2xl sm:text-3xl font-medium text-neutral-900 group-hover:text-primary transition-colors duration-200">
+                          I’m launching something new
+                        </h3>
+                        <span className="p-2 rounded-full bg-neutral-200/70 text-neutral-700 group-hover:bg-primary group-hover:text-white transition-all duration-300 shrink-0">
+                          <FiArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                        </span>
+                      </div>
+                      <p className="font-sans text-sm sm:text-base text-neutral-500 leading-relaxed max-w-sm">
+                        A new business, product or brand that needs to go to market.
+                      </p>
                     </div>
-                    <p className="font-sans text-sm sm:text-base text-neutral-500 leading-relaxed max-w-md">
-                      A new business, product or brand that needs to go to market.
-                    </p>
+
+                    {/* 3D Object PNG - Rotates left continuously on hover */}
+                    <div className="shrink-0 flex items-center justify-center self-end sm:self-center">
+                      <img
+                        src="/Objects/me-ser1.png"
+                        alt="Launching illustration"
+                        className="w-24 sm:w-28 lg:w-32 h-auto object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.12)] transition-transform duration-500 group-hover:scale-105 group-hover:[animation:spin-left_10s_linear_infinite]"
+                      />
+                    </div>
                   </div>
                 </button>
 
@@ -115,20 +126,31 @@ const BusinessQuestions = () => {
                 <button
                   type="button"
                   onClick={() => handleSelectQuestion('grow')}
-                  className="group text-left relative p-8 sm:p-10 lg:p-12 rounded-2xl bg-[#f8f8fa] hover:bg-white border border-neutral-200 hover:border-primary shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between"
+                  className="group text-left relative p-7 sm:p-9 lg:p-10 rounded-2xl bg-[#f8f8fa] hover:bg-white border border-neutral-200 hover:border-primary shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between overflow-hidden min-h-[240px] sm:min-h-[260px]"
                 >
-                  <div>
-                    <div className="flex items-start justify-between gap-4 mb-4">
-                      <h3 className="font-heading text-2xl sm:text-3xl font-medium text-neutral-900 group-hover:text-primary transition-colors duration-200">
-                        I already have a business
-                      </h3>
-                      <span className="p-2.5 rounded-full bg-neutral-200/70 text-neutral-700 group-hover:bg-primary group-hover:text-white transition-all duration-300 shrink-0">
-                        <FiArrowUpRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                      </span>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 w-full">
+                    <div className="flex-1 pr-0 sm:pr-4">
+                      <div className="flex items-center gap-3 mb-3">
+                        <h3 className="font-heading text-2xl sm:text-3xl font-medium text-neutral-900 group-hover:text-primary transition-colors duration-200">
+                          I already have a business
+                        </h3>
+                        <span className="p-2 rounded-full bg-neutral-200/70 text-neutral-700 group-hover:bg-primary group-hover:text-white transition-all duration-300 shrink-0">
+                          <FiArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                        </span>
+                      </div>
+                      <p className="font-sans text-sm sm:text-base text-neutral-500 leading-relaxed max-w-sm">
+                        Something that’s running and ready to grow or improve.
+                      </p>
                     </div>
-                    <p className="font-sans text-sm sm:text-base text-neutral-500 leading-relaxed max-w-md">
-                      Something that’s running and ready to grow or improve.
-                    </p>
+
+                    {/* 3D Object PNG - Rotates left continuously on hover */}
+                    <div className="shrink-0 flex items-center justify-center self-end sm:self-center">
+                      <img
+                        src="/Objects/met-ser2.png"
+                        alt="Growing business illustration"
+                        className="w-24 sm:w-28 lg:w-32 h-auto object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.12)] transition-transform duration-500 group-hover:scale-105 group-hover:[animation:spin-left_10s_linear_infinite]"
+                      />
+                    </div>
                   </div>
                 </button>
 
