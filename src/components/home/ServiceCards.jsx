@@ -60,7 +60,7 @@ const ServiceCards = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Left-Aligned Section Heading with 80px Left Margin (no subheading, no description) */}
-        <div className="mb-12 sm:mb-16 lg:mb-20 ml-0 sm:ml-8 lg:ml-[80px]">
+        <div className="mb-12 sm:mb-16 lg:mb-20 ml-0 sm:ml-8 lg:ml-[120px]">
           <h2 className="font-heading text-3xl sm:text-5xl md:text-6xl font-normal leading-[1.15] tracking-tight text-white">
             Everything your growth <br className="hidden sm:inline" />
             <span className="text-primary">strategy</span> calls for.
