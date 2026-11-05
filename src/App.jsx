@@ -3,6 +3,7 @@ import Hero from './components/home/Hero'
 import About from './components/home/About'
 import ServiceCards from './components/home/ServiceCards'
 import FeaturedPortfolio from './components/home/FeaturedPortfolio'
+import ProcessBuild from './components/home/ProcessBuild'
 import BusinessQuestions from './components/home/BusinessQuestions'
 import Footer from './components/layout/Footer'
 import LenisScrolling from './components/ui/LenisScrolling'
@@ -18,6 +19,8 @@ const App = () => {
           <FeaturedPortfolio />
           <ServiceCards />
           <BusinessQuestions />
+          <ProcessBuild />
+
         </main>
         <Footer />
       </div>
