@@ -68,15 +68,15 @@ const ProjectCard = ({ project, aspect = 'aspect-[16/11]' }) => (
     transition={{ duration: 0.7, ease: [0.215, 0.61, 0.355, 1] }}
     className="group cursor-pointer flex flex-col w-full"
   >
-    {/* Image Container with Square Corners */}
+    {/* Image Container with Square Corners, No Border & Hover Scale */}
     <div
-      className={`relative ${aspect} w-full overflow-hidden bg-zinc-900 rounded-none border border-white/10`}
+      className={`relative ${aspect} w-full overflow-hidden bg-zinc-900 rounded-none transition-transform duration-500 ease-out group-hover:scale-[1.03]`}
     >
       <img
         src={project.image}
         alt={project.title}
         loading="lazy"
-        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
       />
       <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-300" />
     </div>
@@ -110,7 +110,7 @@ const FeaturedPortfolio = () => {
   return (
     <section
       id="portfolio"
-      className="relative w-full bg-black text-white py-28 sm:py-36 lg:py-44 overflow-hidden border-t border-white/10"
+      className="relative w-full bg-black text-white py-28 sm:py-36 lg:py-44 overflow-hidden"
     >
       {/* Background Subtle Light Grid */}
       <div

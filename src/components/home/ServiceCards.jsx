@@ -43,6 +43,9 @@ const ServiceCards = () => {
       className="relative mx-0 sm:mx-6 lg:mx-[50px] bg-cover bg-center bg-no-repeat text-white py-20 sm:py-28 lg:py-32 overflow-hidden"
       style={{ backgroundImage: "url('/Banner/service-section-background.jpg')" }}
     >
+      {/* 50% Black Overlay */}
+      <div className="absolute inset-0 bg-black/50 pointer-events-none" />
+
       {/* Main Content Container */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
