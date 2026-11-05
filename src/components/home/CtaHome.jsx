@@ -15,7 +15,7 @@ const CtaHome = () => {
   const rotateScroll = useTransform(scrollYProgress, [0, 1], [0, 240])
 
   return (
-    <div ref={sectionRef} className="relative w-full py-8 sm:py-12 lg:py-16">
+    <div ref={sectionRef} className="relative w-full py-8 sm:py-12 lg:py-16 mb-[150px]">
       
       {/* Outer wrapper matching desktop 50px margins */}
       <div className="relative mx-0 sm:mx-6 lg:mx-[50px]">
@@ -34,14 +34,14 @@ const CtaHome = () => {
           />
         </motion.div>
 
-        {/* Section Container with Background Image & 50% Black Overlay */}
+        {/* Section Container with Home CTA Banner Background */}
         <section
           id="cta"
           className="relative bg-cover bg-center bg-no-repeat text-white py-20 sm:py-28 lg:py-32 overflow-hidden"
-          style={{ backgroundImage: "url('/Banner/service-section-background.jpg')" }}
+          style={{ backgroundImage: "url('/Banner/home-cta-banner.webp')" }}
         >
-          {/* 50% Black Overlay */}
-          <div className="absolute inset-0 bg-black/50 pointer-events-none" />
+          {/* Subtle Overlay to ensure crisp contrast */}
+          <div className="absolute inset-0 bg-black/40 pointer-events-none" />
 
           {/* Center-Aligned Content Container */}
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
