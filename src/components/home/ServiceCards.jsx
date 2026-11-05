@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import Button from '../ui/Button'
 
 const services = [
@@ -37,17 +38,51 @@ const services = [
 ]
 
 const ServiceCards = () => {
-  return (
-    <section
-      id="services"
-      className="relative mx-0 sm:mx-6 lg:mx-[50px] bg-cover bg-center bg-no-repeat text-white py-20 sm:py-28 lg:py-32 overflow-hidden"
-      style={{ backgroundImage: "url('/Banner/service-section-background.jpg')" }}
-    >
-      {/* 50% Black Overlay */}
-      <div className="absolute inset-0 bg-black/50 pointer-events-none" />
+  const sectionRef = useRef(null)
 
-      {/* Main Content Container */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  // Track scroll position through the section for smooth object rotation
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  })
+
+  // Smooth scroll-driven rotation values
+  const rotateLeft = useTransform(scrollYProgress, [0, 1], [0, 240])
+  const rotateRight = useTransform(scrollYProgress, [0, 1], [0, -240])
+
+  return (
+    <div ref={sectionRef} className="relative w-full py-8 sm:py-12 lg:py-16">
+      
+      {/* Outer wrapper matching desktop 50px margins */}
+      <div className="relative mx-0 sm:mx-6 lg:mx-[50px]">
+        
+        {/* Top-Left Floating 3D Object - Kept outside the section */}
+        <motion.img
+          src="/Objects/Object-4-.png"
+          alt="Decorative 3D Object"
+          style={{ rotate: rotateLeft }}
+          className="absolute -top-12 left-0 sm:-top-18 sm:-left-6 lg:-top-24 lg:-left-12 w-28 sm:w-44 lg:w-56 h-auto object-contain z-30 pointer-events-none drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)]"
+        />
+
+        {/* Bottom-Right Floating 3D Object - Kept outside the section */}
+        <motion.img
+          src="/Objects/Object-6-1.png"
+          alt="Decorative 3D Object"
+          style={{ rotate: rotateRight }}
+          className="absolute -bottom-12 right-0 sm:-bottom-18 sm:-right-6 lg:-bottom-24 lg:-right-12 w-28 sm:w-40 lg:w-52 h-auto object-contain z-30 pointer-events-none drop-shadow-[0_25px_50px_rgba(0,0,0,0.95)]"
+        />
+
+        {/* Section Container with Background Image & 50% Black Overlay */}
+        <section
+          id="services"
+          className="relative bg-cover bg-center bg-no-repeat text-white py-20 sm:py-28 lg:py-32"
+          style={{ backgroundImage: "url('/Banner/service-section-background.jpg')" }}
+        >
+          {/* 50% Black Overlay */}
+          <div className="absolute inset-0 bg-black/50 pointer-events-none" />
+
+          {/* Main Content Container */}
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Left-Aligned Section Heading */}
         <div className="mb-12 sm:mb-16 lg:mb-20">
@@ -115,7 +150,7 @@ const ServiceCards = () => {
         </div>
 
         {/* Bottom CTA Action - Centered with 40px top margin */}
-        <div className="mt-[50px] text-center">
+        <div className="mt-[40px] text-center">
           <Button
             href="#contact"
             variant="primary"
@@ -125,6 +160,8 @@ const ServiceCards = () => {
 
       </div>
     </section>
+  </div>
+</div>
   )
 }
 

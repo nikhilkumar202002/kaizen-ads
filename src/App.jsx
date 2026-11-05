@@ -6,7 +6,7 @@ import FeaturedPortfolio from './components/home/FeaturedPortfolio'
 
 const App = () => {
   return (
-    <div className="relative min-h-screen bg-black">
+    <div className="relative min-h-screen bg-black overflow-x-clip">
       <Header />
       <main>
         <Hero />
