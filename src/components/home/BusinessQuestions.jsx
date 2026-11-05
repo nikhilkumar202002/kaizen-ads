@@ -87,14 +87,14 @@ const BusinessQuestions = () => {
                 </p>
               </div>
 
-              {/* The Two Question Cards (Boxed Layout, Image on Top, Arrow Box in Middle of Bottom Line) */}
+              {/* The Two Question Cards (Boxed Layout, Image on Top, Arrow Box Appears on Hover on Bottom Line) */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 pb-8">
                 
                 {/* Question Card 1: Launching New */}
                 <button
                   type="button"
                   onClick={() => handleSelectQuestion('launch')}
-                  className="group text-center relative p-8 sm:p-10 lg:p-12 pb-14 sm:pb-16 rounded-none bg-[#f8f8fa] hover:bg-white border border-neutral-200 hover:border-primary shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col items-center justify-between min-h-[340px] sm:min-h-[380px]"
+                  className="group text-center relative p-8 sm:p-10 lg:p-12 pb-14 sm:pb-16 rounded-none bg-[#f8f8fa] hover:bg-white border border-neutral-200 hover:border-primary transition-all duration-300 cursor-pointer flex flex-col items-center justify-between min-h-[340px] sm:min-h-[380px]"
                 >
                   {/* 3D Object PNG on Top of Content - Rotates left continuously on hover */}
                   <div className="w-full flex items-center justify-center mb-6 sm:mb-8">
@@ -115,9 +115,9 @@ const BusinessQuestions = () => {
                     </p>
                   </div>
 
-                  {/* Boxed Arrow Icon on Middle of Bottom Line */}
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-20 pointer-events-none">
-                    <div className="w-12 h-12 rounded-none bg-white border border-neutral-200 group-hover:border-primary group-hover:bg-primary text-neutral-800 group-hover:text-white flex items-center justify-center transition-all duration-300 shadow-md">
+                  {/* Boxed Arrow Icon on Middle of Bottom Line - Appears on Hover */}
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-20 pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-300">
+                    <div className="w-12 h-12 rounded-none bg-white border border-neutral-200 group-hover:border-primary group-hover:bg-primary text-neutral-800 group-hover:text-white flex items-center justify-center transition-all duration-300">
                       <FiArrowUpRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </div>
                   </div>
@@ -127,7 +127,7 @@ const BusinessQuestions = () => {
                 <button
                   type="button"
                   onClick={() => handleSelectQuestion('grow')}
-                  className="group text-center relative p-8 sm:p-10 lg:p-12 pb-14 sm:pb-16 rounded-none bg-[#f8f8fa] hover:bg-white border border-neutral-200 hover:border-primary shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col items-center justify-between min-h-[340px] sm:min-h-[380px]"
+                  className="group text-center relative p-8 sm:p-10 lg:p-12 pb-14 sm:pb-16 rounded-none bg-[#f8f8fa] hover:bg-white border border-neutral-200 hover:border-primary transition-all duration-300 cursor-pointer flex flex-col items-center justify-between min-h-[340px] sm:min-h-[380px]"
                 >
                   {/* 3D Object PNG on Top of Content - Rotates left continuously on hover */}
                   <div className="w-full flex items-center justify-center mb-6 sm:mb-8">
@@ -148,9 +148,9 @@ const BusinessQuestions = () => {
                     </p>
                   </div>
 
-                  {/* Boxed Arrow Icon on Middle of Bottom Line */}
-                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-20 pointer-events-none">
-                    <div className="w-12 h-12 rounded-none bg-white border border-neutral-200 group-hover:border-primary group-hover:bg-primary text-neutral-800 group-hover:text-white flex items-center justify-center transition-all duration-300 shadow-md">
+                  {/* Boxed Arrow Icon on Middle of Bottom Line - Appears on Hover */}
+                  <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 z-20 pointer-events-none opacity-0 group-hover:opacity-100 transition-all duration-300">
+                    <div className="w-12 h-12 rounded-none bg-white border border-neutral-200 group-hover:border-primary group-hover:bg-primary text-neutral-800 group-hover:text-white flex items-center justify-center transition-all duration-300">
                       <FiArrowUpRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </div>
                   </div>
@@ -210,8 +210,8 @@ const BusinessQuestions = () => {
                       onClick={() => toggleStep(step.number)}
                       className={`group text-left relative p-6 sm:p-7 rounded-none border transition-all duration-200 flex flex-col justify-between min-h-[150px] sm:min-h-[170px] cursor-pointer ${
                         isSelected
-                          ? 'bg-white border-primary shadow-md shadow-primary/5 ring-1 ring-primary'
-                          : 'bg-[#f8f8fa] hover:bg-white border-neutral-200/80 hover:border-neutral-300 shadow-xs'
+                          ? 'bg-white border-primary ring-1 ring-primary'
+                          : 'bg-[#f8f8fa] hover:bg-white border-neutral-200/80 hover:border-neutral-300'
                       }`}
                     >
                       {/* Step Number & Functional Selection Indicator */}

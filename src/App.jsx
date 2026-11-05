@@ -5,6 +5,7 @@ import ServiceCards from './components/home/ServiceCards'
 import FeaturedPortfolio from './components/home/FeaturedPortfolio'
 import ProcessBuild from './components/home/ProcessBuild'
 import BusinessQuestions from './components/home/BusinessQuestions'
+import CtaHome from './components/home/CtaHome'
 import Footer from './components/layout/Footer'
 import LenisScrolling from './components/ui/LenisScrolling'
 
@@ -20,7 +21,7 @@ const App = () => {
           <ServiceCards />
           <BusinessQuestions />
           <ProcessBuild />
-
+          <CtaHome />
         </main>
         <Footer />
       </div>
