@@ -33,11 +33,11 @@ const BusinessQuestions = () => {
   // When null: displays the two questions.
   // When 'launch' or 'grow': questions are hidden, only the choosing options are displayed.
   const [selectedOption, setSelectedOption] = useState(null)
-  const [selectedSteps, setSelectedSteps] = useState([1, 2, 3, 4, 5, 6])
+  const [selectedSteps, setSelectedSteps] = useState([])
 
   const handleSelectQuestion = (option) => {
     setSelectedOption(option)
-    setSelectedSteps([1, 2, 3, 4, 5, 6])
+    setSelectedSteps([])
   }
 
   const toggleStep = (stepNumber) => {

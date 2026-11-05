@@ -1,13 +1,6 @@
-import { FiMail, FiArrowUp } from 'react-icons/fi'
+import { FiMail } from 'react-icons/fi'
 
 const Footer = () => {
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    })
-  }
-
   const pagesLinks = [
     { label: 'About Us', href: '#about' },
     { label: 'Our Work', href: '#portfolio' },
@@ -45,16 +38,12 @@ const Footer = () => {
   return (
     <footer className="relative w-full bg-black text-white pt-16 sm:pt-20 lg:pt-24 pb-12 sm:pb-16 overflow-hidden border-t border-white/10">
       
-      {/* Top Bar with Horizontal Divider & Centered Scroll-to-Top Pill */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 sm:mb-16 lg:mb-20">
-        
-        {/* Horizontal Background Divider Line behind Pill */}
-        <div className="absolute top-1/2 left-4 right-4 sm:left-6 sm:right-6 lg:left-8 lg:right-8 h-[1px] bg-white/10 -translate-y-1/2 hidden md:block" />
-
-        <div className="relative flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8">
+      {/* Top Bar with Email and Social Links */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 sm:mb-16 lg:mb-20 pb-8 sm:pb-10 border-b border-white/10">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-6 sm:gap-8">
           
           {/* Left: Email */}
-          <div className="z-10 bg-black md:pr-6">
+          <div>
             <a
               href="mailto:hello@kaizenads.com"
               className="group inline-flex items-center gap-2.5 font-sans text-sm sm:text-base text-white/80 hover:text-white transition-colors"
@@ -64,20 +53,8 @@ const Footer = () => {
             </a>
           </div>
 
-          {/* Center: Scroll to Top Capsule / Pill Button */}
-          <div className="z-10 bg-black md:px-6">
-            <button
-              type="button"
-              onClick={scrollToTop}
-              aria-label="Scroll to top"
-              className="group relative w-9 h-14 sm:w-10 sm:h-16 rounded-full border border-white/20 hover:border-primary bg-black flex items-center justify-center text-white/70 hover:text-white transition-all duration-300 cursor-pointer shadow-lg hover:shadow-primary/20"
-            >
-              <FiArrowUp className="w-4 h-4 text-white group-hover:text-primary transition-transform duration-300 group-hover:-translate-y-1" />
-            </button>
-          </div>
-
           {/* Right: Social Links with Pipe Separator */}
-          <div className="z-10 bg-black md:pl-6 flex items-center flex-wrap justify-center gap-2.5 sm:gap-3 font-sans text-sm sm:text-base text-white/70">
+          <div className="flex items-center flex-wrap justify-center gap-2.5 sm:gap-3 font-sans text-sm sm:text-base text-white/70">
             {socialLinks.map((item, index) => (
               <div key={item.label} className="inline-flex items-center gap-2.5 sm:gap-3">
                 <a
