@@ -40,30 +40,19 @@ const ServiceCards = () => {
   return (
     <section
       id="services"
-      className="relative w-full bg-black text-white pt-0 pb-28 sm:pb-36 lg:pb-40 overflow-hidden"
+      className="relative mx-0 sm:mx-6 lg:mx-[50px] bg-cover bg-center bg-no-repeat text-white py-20 sm:py-28 lg:py-32 overflow-hidden"
+      style={{ backgroundImage: "url('/Banner/service-section-background.jpg')" }}
     >
-      {/* Subtle Background Architectural Grid */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-20"
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(255, 255, 255, 0.08) 1px, transparent 1px)
-          `,
-          backgroundSize: '48px 48px',
-        }}
-      />
-
-      {/* Ambient Gradient Vignette */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black pointer-events-none" />
-
       {/* Main Content Container */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Left-Aligned Section Heading with Left Margin */}
-        <div className="mb-12 sm:mb-16 lg:mb-20 ml-0 sm:ml-8 lg:ml-[120px]">
+        {/* Left-Aligned Section Heading */}
+        <div className="mb-12 sm:mb-16 lg:mb-20">
           <h2 className="font-heading text-3xl sm:text-5xl md:text-6xl font-normal leading-[1.15] tracking-tight text-white">
-            Everything your growth <span className="text-primary">strategy</span> calls for.
+            <span className="block">Everything your growth</span>
+            <span className="block">
+              <span className="text-primary">strategy</span> calls for.
+            </span>
           </h2>
         </div>
 
@@ -80,7 +69,7 @@ const ServiceCards = () => {
                 delay: index * 0.1,
                 ease: [0.215, 0.61, 0.355, 1],
               }}
-              className="group relative aspect-[3/4] w-full overflow-hidden bg-zinc-950 rounded-none cursor-pointer flex flex-col justify-between p-6 sm:p-7"
+              className="group relative aspect-[3/4] w-full overflow-hidden bg-zinc-950/80 backdrop-blur-sm rounded-none cursor-pointer flex flex-col justify-between p-6 sm:p-7"
             >
               {/* Background Image (Reveals & zooms on hover) */}
               <img
@@ -93,7 +82,7 @@ const ServiceCards = () => {
               {/* Dark Gradient Overlay for optimal contrast on hover */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/80 to-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-              {/* Top Area: Service Name (no numbering, no arrow) */}
+              {/* Top Area: Service Name */}
               <div className="relative z-10 flex flex-col pt-1">
                 <h3 className="font-heading text-xl sm:text-2xl font-normal text-white group-hover:text-white transition-colors duration-200">
                   {service.name}
@@ -105,7 +94,7 @@ const ServiceCards = () => {
                 {service.keywords.map((keyword) => (
                   <span
                     key={keyword}
-                    className="font-sans text-[11px] sm:text-xs text-white/90 bg-white/10 backdrop-blur-md px-2.5 py-1 border border-white/15 rounded-none"
+                    className="font-sans text-[11px] sm:text-xs text-white/90 bg-white/10 backdrop-blur-md px-2.5 py-1 rounded-none"
                   >
                     {keyword}
                   </span>
@@ -123,7 +112,7 @@ const ServiceCards = () => {
         </div>
 
         {/* Bottom CTA Action - Centered with 40px top margin */}
-        <div className="mt-[40px] text-center">
+        <div className="mt-[50px] text-center">
           <Button
             href="#contact"
             variant="primary"

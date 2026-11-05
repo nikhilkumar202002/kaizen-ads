@@ -36,51 +36,51 @@ const Button = ({
 
   // Preset color variants for different section backgrounds
   const variantColorConfig = {
-    // Brand primary red button (ideal for dark/hero sections)
+    // Brand primary red button (ideal for dark/hero sections) - borderless
     primary: {
-      base: 'bg-primary border-primary text-white',
+      base: 'bg-primary text-white',
       slider: 'bg-white',
       hoverText: 'group-hover:text-black',
     },
     // Solid black button (ideal for white/light background sections)
     black: {
-      base: 'bg-black border-black text-white',
+      base: 'bg-black text-white',
       slider: 'bg-white',
       hoverText: 'group-hover:text-black',
     },
     // Alias for black
     secondary: {
-      base: 'bg-black border-black text-white',
+      base: 'bg-black text-white',
       slider: 'bg-white',
       hoverText: 'group-hover:text-black',
     },
     // White button (ideal for red or dark background sections)
     white: {
-      base: 'bg-white border-white text-black',
+      base: 'bg-white text-black',
       slider: 'bg-primary',
       hoverText: 'group-hover:text-white',
     },
     // White button that fills with black
     whiteToBlack: {
-      base: 'bg-white border-white text-black',
+      base: 'bg-white text-black',
       slider: 'bg-black',
       hoverText: 'group-hover:text-white',
     },
     // Transparent with white border (for dark sections)
     outline: {
-      base: 'bg-transparent border-white text-white',
+      base: 'bg-transparent border border-white text-white',
       slider: 'bg-white',
       hoverText: 'group-hover:text-black',
     },
     // Transparent with black border (for light sections)
     outlineDark: {
-      base: 'bg-transparent border-black/40 text-black group-hover:border-black',
+      base: 'bg-transparent border border-black/40 text-black group-hover:border-black',
       slider: 'bg-black',
       hoverText: 'group-hover:text-white',
     },
     // Transparent with primary red border
     outlinePrimary: {
-      base: 'bg-transparent border-primary text-primary group-hover:border-primary',
+      base: 'bg-transparent border border-primary text-primary group-hover:border-primary',
       slider: 'bg-primary',
       hoverText: 'group-hover:text-white',
     },
@@ -102,7 +102,7 @@ const Button = ({
 
   // Fixed structural styling (100% consistent across all buttons)
   const baseStyles =
-    'relative overflow-hidden inline-flex items-center justify-between font-heading font-normal text-[17px] capitalize tracking-normal rounded-none border transition-all duration-300 group cursor-pointer select-none disabled:opacity-50 disabled:cursor-not-allowed'
+    'relative overflow-hidden inline-flex items-center justify-between font-heading font-normal text-[17px] capitalize tracking-normal rounded-none transition-all duration-300 group cursor-pointer select-none disabled:opacity-50 disabled:cursor-not-allowed'
 
   const buttonClasses = `${baseStyles} ${sizeStyles[size] || sizeStyles.md} ${baseColorClasses} ${className}`
 
