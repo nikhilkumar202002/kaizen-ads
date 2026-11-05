@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import Button from '../ui/Button'
 
 const services = [
   {
@@ -120,6 +121,15 @@ const ServiceCards = () => {
               </div>
             </motion.article>
           ))}
+        </div>
+
+        {/* Bottom CTA Action - Centered with 40px top margin */}
+        <div className="mt-[40px] text-center">
+          <Button
+            href="#contact"
+            variant="primary"
+            text="Explore All Services"
+          />
         </div>
 
       </div>
