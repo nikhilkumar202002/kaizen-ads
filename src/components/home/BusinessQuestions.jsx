@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FiArrowUpRight } from 'react-icons/fi'
+import { FiArrowUpRight, FiCheck } from 'react-icons/fi'
 import Button from '../ui/Button'
 
 const launchData = {
@@ -30,9 +30,26 @@ const growData = {
 }
 
 const BusinessQuestions = () => {
+  // When null: displays the two questions.
+  // When 'launch' or 'grow': questions are hidden, only the choosing options are displayed.
   const [selectedOption, setSelectedOption] = useState(null)
+  const [selectedSteps, setSelectedSteps] = useState([1, 2, 3, 4, 5, 6])
 
-  const activeContent = selectedOption === 'launch' ? launchData : selectedOption === 'grow' ? growData : null
+  const handleSelectQuestion = (option) => {
+    setSelectedOption(option)
+    setSelectedSteps([1, 2, 3, 4, 5, 6])
+  }
+
+  const toggleStep = (stepNumber) => {
+    setSelectedSteps((prev) =>
+      prev.includes(stepNumber)
+        ? prev.filter((id) => id !== stepNumber)
+        : [...prev, stepNumber]
+    )
+  }
+
+  const activeContent =
+    selectedOption === 'launch' ? launchData : selectedOption === 'grow' ? growData : null
 
   return (
     <section
@@ -49,122 +66,166 @@ const BusinessQuestions = () => {
           </span>
         </div>
 
-        {/* Section Heading & Subheading */}
-        <div className="max-w-3xl mb-12 sm:mb-16">
-          <h2 className="font-heading text-3xl sm:text-5xl md:text-6xl font-normal leading-[1.15] tracking-tight text-black mb-4">
-            Where is your business today?
-          </h2>
-          <p className="font-sans text-base sm:text-lg md:text-xl text-neutral-600 font-normal">
-            Pick the one that fits and we’ll show how we’d begin.
-          </p>
-        </div>
-
-        {/* Interactive Content Switcher */}
+        {/* Dynamic Transition between Questions and Choosing Options */}
         <AnimatePresence mode="wait">
           {selectedOption === null ? (
-            /* Choice Cards View (Image 1) */
+            /* 1. QUESTIONS VIEW: Displayed initially / when no question is selected */
             <motion.div
-              key="choices"
-              initial={{ opacity: 0, y: 20 }}
+              key="questions-view"
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.35, ease: 'easeOut' }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8"
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
             >
-              {/* Card 1: Launching New */}
-              <button
-                type="button"
-                onClick={() => setSelectedOption('launch')}
-                className="group text-left relative bg-[#141414] hover:bg-[#1a1a1a] text-white p-8 sm:p-10 lg:p-12 rounded-2xl border border-neutral-800 hover:border-primary transition-all duration-300 cursor-pointer shadow-lg hover:shadow-2xl hover:-translate-y-1 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-start justify-between gap-4 mb-4">
-                    <h3 className="font-heading text-2xl sm:text-3xl font-medium text-white group-hover:text-primary transition-colors duration-200">
-                      I’m launching something new
-                    </h3>
-                    <span className="p-2.5 rounded-full bg-white/5 group-hover:bg-primary group-hover:text-white text-white/60 transition-all duration-300 shrink-0">
-                      <FiArrowUpRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                    </span>
-                  </div>
-                  <p className="font-sans text-sm sm:text-base text-neutral-400 leading-relaxed max-w-md">
-                    A new business, product or brand that needs to go to market.
-                  </p>
-                </div>
-              </button>
+              {/* Section Heading & Subheading */}
+              <div className="max-w-3xl mb-12 sm:mb-16">
+                <h2 className="font-heading text-3xl sm:text-5xl md:text-6xl font-normal leading-[1.15] tracking-tight text-black mb-4">
+                  Where is your business today?
+                </h2>
+                <p className="font-sans text-base sm:text-lg md:text-xl text-neutral-600 font-normal">
+                  Pick the one that fits and we’ll show how we’d begin.
+                </p>
+              </div>
 
-              {/* Card 2: Already have a business */}
-              <button
-                type="button"
-                onClick={() => setSelectedOption('grow')}
-                className="group text-left relative bg-[#141414] hover:bg-[#1a1a1a] text-white p-8 sm:p-10 lg:p-12 rounded-2xl border border-neutral-800 hover:border-primary transition-all duration-300 cursor-pointer shadow-lg hover:shadow-2xl hover:-translate-y-1 flex flex-col justify-between"
-              >
-                <div>
-                  <div className="flex items-start justify-between gap-4 mb-4">
-                    <h3 className="font-heading text-2xl sm:text-3xl font-medium text-white group-hover:text-primary transition-colors duration-200">
-                      I already have a business
-                    </h3>
-                    <span className="p-2.5 rounded-full bg-white/5 group-hover:bg-primary group-hover:text-white text-white/60 transition-all duration-300 shrink-0">
-                      <FiArrowUpRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                    </span>
+              {/* The Two Question Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
+                
+                {/* Question Card 1: Launching New */}
+                <button
+                  type="button"
+                  onClick={() => handleSelectQuestion('launch')}
+                  className="group text-left relative p-8 sm:p-10 lg:p-12 rounded-2xl bg-[#f8f8fa] hover:bg-white border border-neutral-200 hover:border-primary shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-start justify-between gap-4 mb-4">
+                      <h3 className="font-heading text-2xl sm:text-3xl font-medium text-neutral-900 group-hover:text-primary transition-colors duration-200">
+                        I’m launching something new
+                      </h3>
+                      <span className="p-2.5 rounded-full bg-neutral-200/70 text-neutral-700 group-hover:bg-primary group-hover:text-white transition-all duration-300 shrink-0">
+                        <FiArrowUpRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      </span>
+                    </div>
+                    <p className="font-sans text-sm sm:text-base text-neutral-500 leading-relaxed max-w-md">
+                      A new business, product or brand that needs to go to market.
+                    </p>
                   </div>
-                  <p className="font-sans text-sm sm:text-base text-neutral-400 leading-relaxed max-w-md">
-                    Something that’s running and ready to grow or improve.
-                  </p>
-                </div>
-              </button>
+                </button>
+
+                {/* Question Card 2: Already have a business */}
+                <button
+                  type="button"
+                  onClick={() => handleSelectQuestion('grow')}
+                  className="group text-left relative p-8 sm:p-10 lg:p-12 rounded-2xl bg-[#f8f8fa] hover:bg-white border border-neutral-200 hover:border-primary shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-start justify-between gap-4 mb-4">
+                      <h3 className="font-heading text-2xl sm:text-3xl font-medium text-neutral-900 group-hover:text-primary transition-colors duration-200">
+                        I already have a business
+                      </h3>
+                      <span className="p-2.5 rounded-full bg-neutral-200/70 text-neutral-700 group-hover:bg-primary group-hover:text-white transition-all duration-300 shrink-0">
+                        <FiArrowUpRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      </span>
+                    </div>
+                    <p className="font-sans text-sm sm:text-base text-neutral-500 leading-relaxed max-w-md">
+                      Something that’s running and ready to grow or improve.
+                    </p>
+                  </div>
+                </button>
+
+              </div>
             </motion.div>
           ) : (
-            /* Selected Roadmap View (Image 2 for Launch, Image 3 for Growth) */
+            /* 2. CHOOSING OPTIONS VIEW: Questions are hidden. Container has NO background and NO padding! */
             <motion.div
               key={selectedOption}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.35, ease: 'easeOut' }}
-              className="relative bg-[#141414] text-white p-6 sm:p-10 lg:p-12 rounded-2xl border border-neutral-800 shadow-2xl"
+              exit={{ opacity: 0, y: -15 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              className="relative w-full"
             >
               {/* Header with Switcher Option */}
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8 sm:mb-10 pb-6 border-b border-neutral-800/80">
+              <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 sm:mb-12 pb-6 border-b border-neutral-200">
                 <div>
-                  <h3 className="font-heading text-2xl sm:text-3xl md:text-4xl font-normal text-white mb-2">
+                  <h2 className="font-heading text-3xl sm:text-5xl md:text-6xl font-normal leading-[1.15] tracking-tight text-black mb-3">
                     {activeContent.heading}
-                  </h3>
-                  <p className="font-sans text-sm sm:text-base text-neutral-400">
+                  </h2>
+                  <p className="font-sans text-base sm:text-lg text-neutral-500">
                     {activeContent.subtitle}
                   </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setSelectedOption(selectedOption === 'launch' ? 'grow' : 'launch')}
-                  className="inline-flex items-center gap-2 self-start sm:self-auto font-sans text-xs sm:text-sm text-neutral-300 hover:text-white bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full border border-neutral-700/60 transition-colors cursor-pointer"
-                >
-                  <span>
-                    Switch to: {selectedOption === 'launch' ? 'I already have a business' : 'I’m launching something new'}
-                  </span>
-                </button>
-              </div>
 
-              {/* 6 Step Cards in 4-column Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mb-10 sm:mb-12">
-                {activeContent.steps.map((step, idx) => (
-                  <motion.div
-                    key={step.number}
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.35, delay: idx * 0.05 }}
-                    className="bg-[#1f1f1f] p-6 sm:p-7 rounded-xl border border-neutral-800 flex flex-col justify-between min-h-[140px] sm:min-h-[160px] hover:border-neutral-700 transition-colors"
+                {/* Dynamic Switch to alternate flow */}
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const next = selectedOption === 'launch' ? 'grow' : 'launch'
+                      handleSelectQuestion(next)
+                    }}
+                    className="inline-flex items-center gap-2 font-sans text-xs sm:text-sm text-neutral-600 hover:text-black bg-neutral-100 hover:bg-neutral-200/80 px-4 py-2 rounded-full border border-neutral-200 transition-colors cursor-pointer"
                   >
-                    <span className="font-heading text-2xl sm:text-3xl font-bold text-primary mb-3">
-                      {step.number}
+                    <span>
+                      Switch to: {selectedOption === 'launch' ? 'I already have a business' : 'I’m launching something new'}
                     </span>
-                    <p className="font-heading text-base sm:text-lg text-white font-normal leading-snug">
-                      {step.title}
-                    </p>
-                  </motion.div>
-                ))}
+                  </button>
+                </div>
               </div>
 
-              {/* Bottom Action Area */}
+              {/* 6 Step Choosing Cards with Functional Click Selection */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mb-10 sm:mb-12">
+                {activeContent.steps.map((step, idx) => {
+                  const isSelected = selectedSteps.includes(step.number)
+                  return (
+                    <motion.button
+                      type="button"
+                      key={step.number}
+                      initial={{ opacity: 0, y: 12 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3, delay: idx * 0.04 }}
+                      onClick={() => toggleStep(step.number)}
+                      className={`group text-left relative p-6 sm:p-7 rounded-xl border transition-all duration-200 flex flex-col justify-between min-h-[150px] sm:min-h-[170px] cursor-pointer ${
+                        isSelected
+                          ? 'bg-white border-primary shadow-md shadow-primary/5 ring-1 ring-primary'
+                          : 'bg-[#f8f8fa] hover:bg-white border-neutral-200/80 hover:border-neutral-300 shadow-xs'
+                      }`}
+                    >
+                      {/* Step Number & Functional Selection Indicator */}
+                      <div className="flex items-center justify-between mb-4">
+                        <span
+                          className={`font-heading text-2xl sm:text-3xl font-bold transition-colors ${
+                            isSelected ? 'text-primary' : 'text-neutral-400 group-hover:text-primary'
+                          }`}
+                        >
+                          {step.number}
+                        </span>
+
+                        {/* Interactive Checkmark Circle */}
+                        <span
+                          className={`w-6 h-6 rounded-full flex items-center justify-center transition-all duration-200 ${
+                            isSelected
+                              ? 'bg-primary text-white scale-100 shadow-xs'
+                              : 'border border-neutral-300 bg-neutral-100/70 text-transparent group-hover:border-neutral-400'
+                          }`}
+                        >
+                          <FiCheck className="w-3.5 h-3.5 stroke-[3]" />
+                        </span>
+                      </div>
+
+                      {/* Step Title */}
+                      <p
+                        className={`font-heading text-base sm:text-lg font-normal leading-snug transition-colors ${
+                          isSelected ? 'text-neutral-950' : 'text-neutral-700 group-hover:text-neutral-950'
+                        }`}
+                      >
+                        {step.title}
+                      </p>
+                    </motion.button>
+                  )
+                })}
+              </div>
+
+              {/* Bottom Actions: Discovery Call CTA & Change My Answer */}
               <div className="flex flex-wrap items-center gap-6 sm:gap-8 pt-2">
                 <Button
                   href="#contact"
@@ -174,11 +235,12 @@ const BusinessQuestions = () => {
                 <button
                   type="button"
                   onClick={() => setSelectedOption(null)}
-                  className="font-sans text-base text-white/80 hover:text-white underline underline-offset-4 transition-colors cursor-pointer"
+                  className="font-sans text-base text-neutral-600 hover:text-black underline underline-offset-4 hover:text-primary transition-colors cursor-pointer"
                 >
                   Change my answer
                 </button>
               </div>
+
             </motion.div>
           )}
         </AnimatePresence>

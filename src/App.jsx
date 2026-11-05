@@ -4,6 +4,7 @@ import About from './components/home/About'
 import ServiceCards from './components/home/ServiceCards'
 import FeaturedPortfolio from './components/home/FeaturedPortfolio'
 import BusinessQuestions from './components/home/BusinessQuestions'
+import Footer from './components/layout/Footer'
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <ServiceCards />
         <BusinessQuestions />
       </main>
+      <Footer />
     </div>
   )
 }
