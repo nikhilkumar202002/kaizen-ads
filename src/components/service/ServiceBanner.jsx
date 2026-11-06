@@ -48,7 +48,7 @@ const ServiceBanner = ({
           variants={fadeUpVariant}
           className="font-heading text-white text-3xl sm:text-4xl md:text-5xl lg:text-[52px] xl:text-[58px] font-normal leading-[1.12] tracking-tight max-w-4xl"
         >
-          Think, Create, Execute
+          Think, create, execute: five service groups.
         </motion.h1>
       </div>
     </section>
