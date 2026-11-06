@@ -92,14 +92,14 @@ const OurApproach = () => {
               {approachSteps.map((step) => (
                 <div
                   key={step.number}
-                  className="py-8 sm:py-10 lg:py-12 grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 lg:gap-12 items-baseline group"
+                  className="py-8 sm:py-10 lg:py-12 grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 lg:gap-12 items-center group"
                 >
                   {/* Step Number (Red Outlined) */}
                   <div className="md:col-span-2">
                     <span
-                      className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-[44px] tracking-tight block select-none"
+                      className="font-heading font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[76px] leading-none tracking-tight block select-none"
                       style={{
-                        WebkitTextStroke: '1.5px #E5314D',
+                        WebkitTextStroke: '2px #E5314D',
                         color: 'transparent',
                       }}
                     >
