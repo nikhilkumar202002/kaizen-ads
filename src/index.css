@@ -1,11 +1,69 @@
 @import "tailwindcss";
+@config "../tailwind.config.js";
+
+:root {
+  --color-brand-red: #E5314D;
+  --color-kv-bg: #F6F3EE;
+  --color-kv-alt-bg: #ECE7DF;
+  --color-kv-ink: #17140F;
+  --color-kv-muted: #5D574D;
+  --color-kv-card: #FFFDF9;
+  --color-kv-line: #D6CFC3;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-brand-red: #E5314D;
+    --color-kv-bg: #14120E;
+    --color-kv-alt-bg: #1D1A15;
+    --color-kv-ink: #F4EFE6;
+    --color-kv-muted: #A59E90;
+    --color-kv-card: #1A1712;
+    --color-kv-line: #363027;
+  }
+}
+
+.dark, [data-theme="dark"] {
+  --color-brand-red: #E5314D;
+  --color-kv-bg: #14120E;
+  --color-kv-alt-bg: #1D1A15;
+  --color-kv-ink: #F4EFE6;
+  --color-kv-muted: #A59E90;
+  --color-kv-card: #1A1712;
+  --color-kv-line: #363027;
+}
+
+.light, [data-theme="light"] {
+  --color-brand-red: #E5314D;
+  --color-kv-bg: #F6F3EE;
+  --color-kv-alt-bg: #ECE7DF;
+  --color-kv-ink: #17140F;
+  --color-kv-muted: #5D574D;
+  --color-kv-card: #FFFDF9;
+  --color-kv-line: #D6CFC3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-spin-slow {
+    animation: none !important;
+  }
+}
 
 @theme {
   --color-primary: #c70025;
   --color-primary-hover: #b00020;
-  --font-heading: "Bricolage Grotesque", sans-serif;
+  --color-brand-red: #E5314D;
+  --color-kv-bg: var(--color-kv-bg);
+  --color-kv-alt-bg: var(--color-kv-alt-bg);
+  --color-kv-ink: var(--color-kv-ink);
+  --color-kv-muted: var(--color-kv-muted);
+  --color-kv-card: var(--color-kv-card);
+  --color-kv-line: var(--color-kv-line);
+  --font-heading: "Bricolage Grotesque", "Noto Sans JP", sans-serif;
   --font-sans: "DM Sans", sans-serif;
   --font-body: "DM Sans", sans-serif;
+  --font-kanji: "Bricolage Grotesque", "Noto Sans JP", sans-serif;
+  --animate-spin-slow: spin 8s linear infinite;
 }
 
 @layer base {
