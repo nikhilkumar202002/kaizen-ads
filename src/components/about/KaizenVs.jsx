@@ -23,7 +23,7 @@ const KaizenVs = () => {
   return (
     <section
       aria-labelledby="kaizen-vs-heading"
-      className="w-full bg-kv-alt-bg py-[88px] text-kv-ink transition-colors duration-200"
+      className="w-full bg-black py-[150px] text-white transition-colors duration-200"
     >
       <div className="max-w-[1120px] mx-auto px-4 sm:px-6 lg:px-8">
         
@@ -31,11 +31,11 @@ const KaizenVs = () => {
         <div className="text-center mb-12 sm:mb-16">
           <h2
             id="kaizen-vs-heading"
-            className="font-heading font-[800] text-3xl sm:text-4xl md:text-5xl tracking-tight text-kv-ink"
+            className="font-heading font-[800] text-3xl sm:text-4xl md:text-5xl lg:text-[54px] tracking-tight text-white"
           >
             {COPY.sectionHeading}
           </h2>
-          <p className="font-sans text-kv-muted text-base sm:text-lg md:text-xl mt-3 sm:mt-4 max-w-2xl mx-auto leading-relaxed">
+          <p className="font-sans text-neutral-400 text-base sm:text-lg md:text-xl mt-3 sm:mt-4 max-w-2xl mx-auto leading-relaxed">
             {COPY.introText}
           </p>
         </div>
@@ -44,7 +44,7 @@ const KaizenVs = () => {
         <div className="grid grid-cols-1 min-[820px]:grid-cols-[1fr_auto_1fr] items-stretch gap-6 min-[820px]:gap-4 lg:gap-6">
           
           {/* Left Card: Disconnected activities */}
-          <div className="bg-kv-card rounded-[24px] p-[28px] border-2 border-dashed border-kv-line flex flex-col justify-between h-full transition-colors duration-200">
+          <div className="bg-[#14120E] rounded-[24px] p-[28px] border-2 border-dashed border-[#363027] hover:border-white/20 flex flex-col justify-between h-full transition-colors duration-200">
             <div className="w-full flex items-center justify-center py-4 mb-4">
               <svg
                 width="300"
@@ -55,13 +55,13 @@ const KaizenVs = () => {
                 className="w-[300px] h-[220px] max-w-full overflow-visible"
               >
                 {/* 7 scattered grey circles with ~55% opacity, radius 6-10 */}
-                <circle cx="58" cy="55" r="7" fill="var(--color-kv-muted)" opacity="0.55" />
-                <circle cx="115" cy="155" r="10" fill="var(--color-kv-muted)" opacity="0.55" />
-                <circle cx="70" cy="180" r="6" fill="var(--color-kv-muted)" opacity="0.55" />
-                <circle cx="155" cy="60" r="9" fill="var(--color-kv-muted)" opacity="0.55" />
-                <circle cx="230" cy="50" r="8" fill="var(--color-kv-muted)" opacity="0.55" />
-                <circle cx="205" cy="135" r="10" fill="var(--color-kv-muted)" opacity="0.55" />
-                <circle cx="255" cy="175" r="7" fill="var(--color-kv-muted)" opacity="0.55" />
+                <circle cx="58" cy="55" r="7" fill="#A59E90" opacity="0.55" />
+                <circle cx="115" cy="155" r="10" fill="#A59E90" opacity="0.55" />
+                <circle cx="70" cy="180" r="6" fill="#A59E90" opacity="0.55" />
+                <circle cx="155" cy="60" r="9" fill="#A59E90" opacity="0.55" />
+                <circle cx="230" cy="50" r="8" fill="#A59E90" opacity="0.55" />
+                <circle cx="205" cy="135" r="10" fill="#A59E90" opacity="0.55" />
+                <circle cx="255" cy="175" r="7" fill="#A59E90" opacity="0.55" />
 
                 {/* 3 short broken dotted lines (strokeDasharray="2 9", round caps) that do NOT connect circles */}
                 <line
@@ -69,7 +69,7 @@ const KaizenVs = () => {
                   y1="100"
                   x2="132"
                   y2="108"
-                  stroke="var(--color-kv-muted)"
+                  stroke="#A59E90"
                   strokeWidth="2.5"
                   strokeDasharray="2 9"
                   strokeLinecap="round"
@@ -80,7 +80,7 @@ const KaizenVs = () => {
                   y1="165"
                   x2="208"
                   y2="180"
-                  stroke="var(--color-kv-muted)"
+                  stroke="#A59E90"
                   strokeWidth="2.5"
                   strokeDasharray="2 9"
                   strokeLinecap="round"
@@ -91,7 +91,7 @@ const KaizenVs = () => {
                   y1="95"
                   x2="195"
                   y2="68"
-                  stroke="var(--color-kv-muted)"
+                  stroke="#A59E90"
                   strokeWidth="2.5"
                   strokeDasharray="2 9"
                   strokeLinecap="round"
@@ -101,10 +101,10 @@ const KaizenVs = () => {
             </div>
 
             <div className="mt-2">
-              <h3 className="font-heading font-[800] text-xl sm:text-2xl tracking-tight text-kv-ink mb-2">
+              <h3 className="font-heading font-[800] text-xl sm:text-2xl tracking-tight text-white mb-2">
                 {COPY.disconnectedCard.heading}
               </h3>
-              <p className="font-sans text-kv-muted text-sm sm:text-base leading-relaxed">
+              <p className="font-sans text-neutral-400 text-sm sm:text-base leading-relaxed">
                 {COPY.disconnectedCard.text}
               </p>
             </div>
@@ -113,7 +113,7 @@ const KaizenVs = () => {
           {/* Centre Badge: 52px circle, 2px red border, red text "vs" */}
           <div className="flex items-center justify-center py-1 min-[820px]:py-0 min-[820px]:self-center">
             <div
-              className="w-[52px] h-[52px] rounded-full border-2 border-brand-red flex items-center justify-center bg-kv-card shadow-sm flex-shrink-0 z-10 transition-colors duration-200"
+              className="w-[52px] h-[52px] rounded-full border-2 border-brand-red flex items-center justify-center bg-[#14120E] shadow-sm flex-shrink-0 z-10"
               aria-hidden="true"
             >
               <span className="font-heading font-[800] text-brand-red text-base leading-none select-none">
@@ -123,7 +123,7 @@ const KaizenVs = () => {
           </div>
 
           {/* Right Card: Continuous improvement */}
-          <div className="bg-kv-ink text-kv-bg rounded-[24px] p-[28px] flex flex-col justify-between h-full shadow-lg transition-colors duration-200">
+          <div className="bg-[#1A1712] text-white rounded-[24px] p-[28px] border border-white/10 hover:border-brand-red/40 flex flex-col justify-between h-full shadow-xl transition-colors duration-200">
             <div className="w-full flex items-center justify-center py-4 mb-4">
               <svg
                 width="300"
@@ -171,7 +171,7 @@ const KaizenVs = () => {
                   y="110"
                   textAnchor="middle"
                   dominantBaseline="central"
-                  className="font-kanji font-[800] text-[40px] select-none fill-current"
+                  className="font-kanji font-[800] text-[40px] select-none fill-white"
                 >
                   {COPY.continuousCard.kanji}
                 </text>
@@ -179,10 +179,10 @@ const KaizenVs = () => {
             </div>
 
             <div className="mt-2">
-              <h3 className="font-heading font-[800] text-xl sm:text-2xl tracking-tight text-current mb-2">
+              <h3 className="font-heading font-[800] text-xl sm:text-2xl tracking-tight text-white mb-2">
                 {COPY.continuousCard.heading}
               </h3>
-              <p className="font-sans opacity-85 text-sm sm:text-base leading-relaxed">
+              <p className="font-sans text-neutral-300 text-sm sm:text-base leading-relaxed">
                 {COPY.continuousCard.text}
               </p>
             </div>
@@ -191,7 +191,7 @@ const KaizenVs = () => {
         </div>
 
         {/* 3. Below the row: Approach paragraph (max-width 60ch) */}
-        <p className="max-w-[60ch] font-sans text-kv-muted text-base sm:text-lg leading-relaxed text-center mx-auto mt-12 sm:mt-14">
+        <p className="max-w-[60ch] font-sans text-neutral-400 text-base sm:text-lg leading-relaxed text-center mx-auto mt-12 sm:mt-14">
           {COPY.approachText}
         </p>
 
@@ -200,7 +200,7 @@ const KaizenVs = () => {
           <div
             role="region"
             aria-label={COPY.pillBand.ariaLabel}
-            className="inline-flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 px-6 sm:px-8 py-3.5 sm:py-4 rounded-[22px] bg-[#17140F] dark:bg-[#14120E] text-[#F4EFE6] dark:border dark:border-kv-line shadow-md max-w-full"
+            className="inline-flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 px-6 sm:px-8 py-3.5 sm:py-4 rounded-[22px] bg-[#14120E] border border-white/15 text-white shadow-md max-w-full"
           >
             {COPY.pillBand.steps.map((step, index) => (
               <span key={step} className="inline-flex items-center gap-2.5 sm:gap-4">
@@ -226,4 +226,3 @@ const KaizenVs = () => {
 }
 
 export default KaizenVs
-
