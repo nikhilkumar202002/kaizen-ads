@@ -1,16 +1,16 @@
-import Header from '../components/layout/Header'
 import AboutBanner from '../components/about/AboutBanner'
-import Footer from '../components/layout/Footer'
+import AboutSection from '../components/home/About'
+import ProcessBuild from '../components/home/ProcessBuild'
+import CtaHome from '../components/home/CtaHome'
 
 const About = () => {
   return (
-    <div className="relative min-h-screen bg-black text-white">
-      <Header />
-      <main>
-        <AboutBanner />
-      </main>
-      <Footer />
-    </div>
+    <>
+      <AboutBanner />
+      <AboutSection />
+      <ProcessBuild />
+      <CtaHome />
+    </>
   )
 }
 

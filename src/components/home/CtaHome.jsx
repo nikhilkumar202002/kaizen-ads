@@ -15,7 +15,7 @@ const CtaHome = () => {
   const rotateScroll = useTransform(scrollYProgress, [0, 1], [0, 240])
 
   return (
-    <div ref={sectionRef} className="relative w-full py-8 sm:py-12 lg:py-16 mb-[150px]">
+    <div ref={sectionRef} id="contact" className="relative w-full py-8 sm:py-12 lg:py-16 mb-[150px]">
       
       {/* Outer wrapper matching desktop 50px margins */}
       <div className="relative mx-0 sm:mx-6 lg:mx-[50px]">

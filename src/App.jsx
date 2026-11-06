@@ -1,27 +1,43 @@
+import { useEffect } from 'react'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import Header from './components/layout/Header'
-import Hero from './components/home/Hero'
-import About from './components/home/About'
-import ServiceCards from './components/home/ServiceCards'
-import FeaturedPortfolio from './components/home/FeaturedPortfolio'
-import ProcessBuild from './components/home/ProcessBuild'
-import BusinessQuestions from './components/home/BusinessQuestions'
-import CtaHome from './components/home/CtaHome'
 import Footer from './components/layout/Footer'
+import Home from './pages/Home'
+import About from './pages/About'
 import LenisScrolling from './components/ui/LenisScrolling'
+
+// Smooth scroll to anchor or top on route/hash changes
+const ScrollToAnchor = () => {
+  const { pathname, hash } = useLocation()
+
+  useEffect(() => {
+    if (hash) {
+      setTimeout(() => {
+        const id = hash.replace('#', '')
+        const element = document.getElementById(id)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' })
+        }
+      }, 100)
+    } else {
+      window.scrollTo(0, 0)
+    }
+  }, [pathname, hash])
+
+  return null
+}
 
 const App = () => {
   return (
     <LenisScrolling>
       <div className="relative min-h-screen bg-black overflow-x-clip">
+        <ScrollToAnchor />
         <Header />
         <main>
-          <Hero />
-          <About />
-          <FeaturedPortfolio />
-          <ServiceCards />
-          <BusinessQuestions />
-          <ProcessBuild />
-          <CtaHome />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+          </Routes>
         </main>
         <Footer />
       </div>

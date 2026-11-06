@@ -1,30 +1,31 @@
+import { Link } from 'react-router-dom'
 import { FiMail } from 'react-icons/fi'
 
 const Footer = () => {
   const pagesLinks = [
-    { label: 'About Us', href: '#about' },
-    { label: 'Our Work', href: '#portfolio' },
-    { label: 'Services', href: '#services' },
-    { label: 'Digital Marketing', href: '#services' },
-    { label: 'Web Development', href: '#services' },
-    { label: 'UI/UX Design', href: '#services' },
+    { label: 'About Us', href: '/about' },
+    { label: 'Our Work', href: '/#portfolio' },
+    { label: 'Services', href: '/#services' },
+    { label: 'Digital Marketing', href: '/#services' },
+    { label: 'Web Development', href: '/#services' },
+    { label: 'UI/UX Design', href: '/#services' },
   ]
 
   const serviceLinks = [
-    { label: 'Branding & Identity', href: '#services' },
-    { label: 'Growth & Performance', href: '#services' },
-    { label: 'Web & Digital Platforms', href: '#services' },
-    { label: 'Creative Direction', href: '#services' },
-    { label: 'Paid Media & Ads', href: '#services' },
-    { label: 'Commercial Video', href: '#services' },
+    { label: 'Branding & Identity', href: '/#services' },
+    { label: 'Growth & Performance', href: '/#services' },
+    { label: 'Web & Digital Platforms', href: '/#services' },
+    { label: 'Creative Direction', href: '/#services' },
+    { label: 'Paid Media & Ads', href: '/#services' },
+    { label: 'Commercial Video', href: '/#services' },
   ]
 
   const companyLinks = [
-    { label: 'About', href: '#about' },
-    { label: 'Services', href: '#services' },
-    { label: 'Portfolios', href: '#portfolio' },
-    { label: 'Approach', href: '#diagnostic' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'About', href: '/about' },
+    { label: 'Services', href: '/#services' },
+    { label: 'Portfolios', href: '/#portfolio' },
+    { label: 'Approach', href: '/#diagnostic' },
+    { label: 'Contact', href: '/#contact' },
     { label: 'Privacy Policy', href: '#' },
   ]
 
@@ -94,12 +95,21 @@ const Footer = () => {
             <ul className="space-y-2.5 sm:space-y-3 font-sans text-xs sm:text-sm text-neutral-400">
               {pagesLinks.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="hover:text-white transition-colors duration-200 block"
-                  >
-                    {link.label}
-                  </a>
+                  {link.href.startsWith('/') ? (
+                    <Link
+                      to={link.href}
+                      className="hover:text-white transition-colors duration-200 block"
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={link.href}
+                      className="hover:text-white transition-colors duration-200 block"
+                    >
+                      {link.label}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
@@ -113,12 +123,21 @@ const Footer = () => {
             <ul className="space-y-2.5 sm:space-y-3 font-sans text-xs sm:text-sm text-neutral-400">
               {serviceLinks.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="hover:text-white transition-colors duration-200 block"
-                  >
-                    {link.label}
-                  </a>
+                  {link.href.startsWith('/') ? (
+                    <Link
+                      to={link.href}
+                      className="hover:text-white transition-colors duration-200 block"
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={link.href}
+                      className="hover:text-white transition-colors duration-200 block"
+                    >
+                      {link.label}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
@@ -132,12 +151,21 @@ const Footer = () => {
             <ul className="space-y-2.5 sm:space-y-3 font-sans text-xs sm:text-sm text-neutral-400">
               {companyLinks.map((link) => (
                 <li key={link.label}>
-                  <a
-                    href={link.href}
-                    className="hover:text-white transition-colors duration-200 block"
-                  >
-                    {link.label}
-                  </a>
+                  {link.href.startsWith('/') ? (
+                    <Link
+                      to={link.href}
+                      className="hover:text-white transition-colors duration-200 block"
+                    >
+                      {link.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={link.href}
+                      className="hover:text-white transition-colors duration-200 block"
+                    >
+                      {link.label}
+                    </a>
+                  )}
                 </li>
               ))}
             </ul>
