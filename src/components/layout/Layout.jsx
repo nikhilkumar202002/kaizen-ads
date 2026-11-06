@@ -3,7 +3,6 @@ import { Outlet, useLocation } from 'react-router-dom'
 import Header from './Header'
 import Footer from './Footer'
 
-// Smooth scroll to anchor or top on route/hash changes
 const ScrollToAnchor = () => {
   const { pathname, hash } = useLocation()
 
@@ -24,11 +23,6 @@ const ScrollToAnchor = () => {
   return null
 }
 
-/**
- * Common Layout component shared across all pages.
- * Handles the persistent Header, Footer, page container, and scroll position.
- * Individual page components only need to render their own unique content.
- */
 const Layout = () => {
   return (
     <div className="relative min-h-screen bg-black overflow-x-clip text-white">

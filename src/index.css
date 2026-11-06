@@ -99,11 +99,10 @@
   animation: marquee-infinite 22s linear infinite;
 }
 
-/* Responsive adjustments for 14-inch laptops and displays with 125%-150% scaling */
 @media (max-height: 820px) {
   .hero-container {
-    padding-top: 5.75rem !important; /* ~92px, clears 80-96px fixed header cleanly */
-    padding-bottom: 1.5rem !important; /* 24px */
+    padding-top: 5.75rem !important;
+    padding-bottom: 1.5rem !important;
   }
   .hero-heading {
     font-size: clamp(2.25rem, 5.2vh, 4.25rem) !important;
