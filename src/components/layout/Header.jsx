@@ -9,13 +9,20 @@ const Header = () => {
   const navLinks = [
     { label: 'Home', href: '/' },
     { label: 'About', href: '/about' },
-    { label: 'Services', href: '/#services' },
+    { label: 'Services', href: '/services' },
     { label: 'Portfolio', href: '/#portfolio' },
   ]
 
   const checkIsActive = (href) => {
     if (href.startsWith('/#')) {
       return location.pathname === '/' && location.hash === href.replace('/', '')
+    }
+    if (href === '/services') {
+      return (
+        location.pathname === '/services' ||
+        location.pathname === '/our-service' ||
+        location.pathname.startsWith('/services')
+      )
     }
     return location.pathname === href && !location.hash
   }

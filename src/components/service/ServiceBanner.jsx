@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 
 const ServiceBanner = ({
-  backgroundImage = '/Banner/service-section-background.jpg',
+  backgroundImage = '/Banner/about-banner.webp',
 }) => {
   const fadeUpVariant = {
     hidden: { opacity: 0, y: 24 },
@@ -48,7 +48,7 @@ const ServiceBanner = ({
           variants={fadeUpVariant}
           className="font-heading text-white text-3xl sm:text-4xl md:text-5xl lg:text-[52px] xl:text-[58px] font-normal leading-[1.12] tracking-tight max-w-4xl"
         >
-          Think, create, execute: five service groups.
+          Think, Create, Execute
         </motion.h1>
       </div>
     </section>
