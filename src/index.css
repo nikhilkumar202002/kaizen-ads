@@ -17,6 +17,70 @@
   }
 }
 
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@keyframes marquee-infinite {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee-infinite {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: marquee-infinite 22s linear infinite;
+}
+
+/* Responsive adjustments for 14-inch laptops and displays with 125%-150% scaling */
+@media (max-height: 820px) {
+  .hero-container {
+    padding-top: 5.75rem !important; /* ~92px, clears 80-96px fixed header cleanly */
+    padding-bottom: 1.5rem !important; /* 24px */
+  }
+  .hero-heading {
+    font-size: clamp(2.25rem, 5.2vh, 4.25rem) !important;
+    line-height: 1.06 !important;
+  }
+  .hero-bottom-grid {
+    padding-top: 1rem !important;
+    gap: 1.5rem !important;
+  }
+  .hero-desc {
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+  }
+  .hero-keywords {
+    gap: 0.25rem !important;
+  }
+  .hero-keywords span {
+    font-size: 0.95rem !important;
+  }
+}
+
+@media (max-height: 680px) {
+  .hero-container {
+    padding-top: 5.25rem !important;
+    padding-bottom: 1rem !important;
+  }
+  .hero-heading {
+    font-size: clamp(2rem, 5vh, 3.25rem) !important;
+    line-height: 1.05 !important;
+  }
+  .hero-bottom-grid {
+    padding-top: 0.75rem !important;
+  }
+}
+
 @keyframes spin-left {
   from {
     transform: rotate(0deg);
