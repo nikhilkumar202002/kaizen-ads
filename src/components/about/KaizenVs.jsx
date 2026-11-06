@@ -226,3 +226,4 @@ const KaizenVs = () => {
 }
 
 export default KaizenVs
+
