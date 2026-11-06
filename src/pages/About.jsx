@@ -1,7 +1,7 @@
 import AboutBanner from '../components/about/AboutBanner'
 import WhoWeAre from '../components/about/WhoWeAre'
 import KaizenVs from '../components/about/KaizenVs'
-import ProcessBuild from '../components/home/ProcessBuild'
+import OurApproach from '../components/about/OurApproach'
 import CtaHome from '../components/home/CtaHome'
 
 const About = () => {
@@ -10,7 +10,7 @@ const About = () => {
       <AboutBanner />
       <WhoWeAre />
       <KaizenVs />
-      <ProcessBuild />
+      <OurApproach />
       <CtaHome />
     </>
   )
