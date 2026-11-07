@@ -1,8 +1,13 @@
+import { useSearchParams } from 'react-router-dom'
 import ContactBanner from '../components/contact/ContactBanner'
 import ContactCards from '../components/contact/ContactCards'
 import ChatContactForm from '../components/contact/ChatContactForm'
 
 const ContactUs = () => {
+  const [searchParams] = useSearchParams()
+  const initialGoal = searchParams.get('goal') || ''
+  const initialStage = searchParams.get('stage') || ''
+
   return (
     <>
       <ContactBanner />
@@ -19,7 +24,7 @@ const ContactUs = () => {
 
             {/* Right Column: Chat Contact Form */}
             <div className="lg:col-span-7 flex justify-center lg:justify-end w-full">
-              <ChatContactForm />
+              <ChatContactForm initialGoal={initialGoal} initialStage={initialStage} />
             </div>
 
           </div>

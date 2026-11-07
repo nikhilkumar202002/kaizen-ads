@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiArrowUpRight, FiCheck } from 'react-icons/fi'
 import Button from '../ui/Button'
+import { submitDiagnosticLead } from '../../utils/diagnostics.service'
 
 const launchData = {
   heading: "Here’s how we’d launch it",
@@ -30,6 +32,7 @@ const growData = {
 }
 
 const BusinessQuestions = () => {
+  const navigate = useNavigate()
   // When null: displays the two questions.
   // When 'launch' or 'grow': questions are hidden, only the choosing options are displayed.
   const [selectedOption, setSelectedOption] = useState(null)
@@ -46,6 +49,39 @@ const BusinessQuestions = () => {
         ? prev.filter((id) => id !== stepNumber)
         : [...prev, stepNumber]
     )
+  }
+
+  const handleBookDiscoveryCall = () => {
+    if (selectedOption && selectedSteps.length > 0 && activeContent) {
+      const selectedTitles = activeContent.steps
+        .filter((step) => selectedSteps.includes(step.number))
+        .map((step) => step.title)
+
+      const stageParam =
+        selectedOption === 'launch'
+          ? 'Starting something new'
+          : 'Growing an existing business'
+
+      const goalParam = `Selected priorities: ${selectedTitles.join(', ')}`
+
+      // Asynchronously submit diagnostic lead to backend API
+      try {
+        submitDiagnosticLead({
+          selected_option: selectedOption,
+          selected_steps: selectedTitles,
+        }).catch((err) => {
+          console.warn('Diagnostic lead capture error:', err)
+        })
+      } catch (err) {
+        console.warn('Diagnostic lead submission failed:', err)
+      }
+
+      navigate(
+        `/contact?stage=${encodeURIComponent(stageParam)}&goal=${encodeURIComponent(goalParam)}`
+      )
+    } else {
+      navigate('/contact')
+    }
   }
 
   const activeContent =
@@ -252,7 +288,7 @@ const BusinessQuestions = () => {
               {/* Bottom Actions: Discovery Call CTA & Change My Answer */}
               <div className="flex flex-wrap items-center gap-6 sm:gap-8 pt-2">
                 <Button
-                  href="#contact"
+                  onClick={handleBookDiscoveryCall}
                   variant="primary"
                   text="Book a discovery call"
                 />

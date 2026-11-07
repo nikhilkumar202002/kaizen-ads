@@ -1,7 +1,37 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FiMail } from 'react-icons/fi'
+import { subscribeNewsletter } from '../../utils/newsletter.service'
+import { trackEmailClick } from '../../utils/tracking.service'
 
 const Footer = () => {
+  const [newsletterEmail, setNewsletterEmail] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [feedback, setFeedback] = useState(null)
+
+  const handleNewsletterSubmit = async (e) => {
+    e.preventDefault()
+    if (!newsletterEmail.trim() || loading) return
+
+    setLoading(true)
+    setFeedback(null)
+
+    try {
+      const data = await subscribeNewsletter(newsletterEmail.trim())
+      setFeedback({
+        success: true,
+        message: data.message || 'You have successfully subscribed to our newsletter.',
+      })
+      setNewsletterEmail('')
+    } catch (err) {
+      setFeedback({
+        success: false,
+        message: err.message || 'Subscription failed. Please check your email.',
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
   const pagesLinks = [
     { label: 'About Us', href: '/about' },
     { label: 'Our Work', href: '/portfolio' },
@@ -47,6 +77,7 @@ const Footer = () => {
           <div>
             <a
               href="mailto:hello@kaizenads.com"
+              onClick={() => trackEmailClick('hello@kaizenads.com')}
               className="group inline-flex items-center gap-2.5 font-sans text-sm sm:text-base text-white/80 hover:text-white transition-colors"
             >
               <FiMail className="w-4 h-4 text-primary group-hover:scale-110 transition-transform duration-200" />
@@ -81,6 +112,43 @@ const Footer = () => {
         <h2 className="font-heading text-center font-bold tracking-tight uppercase leading-[0.85] text-white/[0.08] text-[15vw] sm:text-[16vw] lg:text-[17vw] whitespace-nowrap">
           KAIZEN ADS
         </h2>
+      </div>
+
+      {/* Newsletter Subscription Bar */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 sm:mb-16">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 p-6 sm:p-8 bg-neutral-950 border border-white/10 rounded-none">
+          <div className="max-w-xl">
+            <h3 className="font-heading text-lg sm:text-xl font-medium text-white mb-1.5">
+              Subscribe to the Kaizen Ads Newsletter
+            </h3>
+            <p className="font-sans text-xs sm:text-sm text-neutral-400">
+              Actionable insights on branding, full-funnel digital marketing, and web development.
+            </p>
+          </div>
+
+          <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full lg:w-auto">
+            <input
+              type="email"
+              value={newsletterEmail}
+              onChange={(e) => setNewsletterEmail(e.target.value)}
+              placeholder="Enter your email address"
+              required
+              className="px-4 py-2.5 bg-black border border-white/20 text-white placeholder-neutral-500 text-sm focus:outline-none focus:border-primary w-full sm:w-72 rounded-none transition-colors"
+            />
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-6 py-2.5 bg-primary hover:bg-primary/90 text-white font-sans text-sm font-medium transition-colors cursor-pointer rounded-none disabled:opacity-50"
+            >
+              {loading ? 'Subscribing…' : 'Subscribe'}
+            </button>
+          </form>
+        </div>
+        {feedback && (
+          <p className={`mt-2 text-xs font-sans ${feedback.success ? 'text-green-400' : 'text-primary'}`}>
+            {feedback.message}
+          </p>
+        )}
       </div>
 
       {/* Bottom 4-Column Navigation Layout */}

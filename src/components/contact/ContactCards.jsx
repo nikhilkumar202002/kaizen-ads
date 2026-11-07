@@ -1,4 +1,5 @@
 import { IoCall, IoMail, IoLocationSharp } from 'react-icons/io5'
+import { trackEvent } from '../../utils/tracking.service'
 
 const contactItems = [
   {
@@ -35,6 +36,35 @@ const contactItems = [
 ]
 
 const ContactCards = () => {
+  const trackContactClick = (item) => {
+    try {
+      let eventType = null
+      let contactValue = null
+
+      if (item.href?.startsWith('mailto:')) {
+        eventType = 'email_click'
+        contactValue = 'info@kaizenads.in'
+      } else if (item.href?.includes('wa.me')) {
+        eventType = 'whatsapp_click'
+        contactValue = '+919605281668'
+      } else if (item.href?.startsWith('tel:')) {
+        eventType = 'phone_click'
+        contactValue = '+919605281668'
+      }
+
+      if (!eventType || !contactValue) return
+
+      trackEvent({
+        event_type: eventType,
+        event_value: contactValue,
+        contact_value: contactValue,
+        page_url: window.location.href,
+      })
+    } catch {
+      // Non-blocking: failures must never prevent the contact action
+    }
+  }
+
   return (
     <div className="flex flex-col gap-5 sm:gap-6 w-full">
       {contactItems.map((item, index) => {
@@ -46,6 +76,7 @@ const ContactCards = () => {
             target={item.target}
             rel={item.rel}
             aria-label={item.ariaLabel}
+            onClick={() => trackContactClick(item)}
             className="bg-[#181512] border border-[#2F2922] hover:border-brand-red/70 hover:bg-[#1E1A16] rounded-[28px] p-6 sm:p-7 lg:p-8 flex items-center gap-5 sm:gap-6 transition-all duration-200 group text-left shadow-xl select-none"
           >
             {/* Red Circle with Icon */}

@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
+import { submitEnquiry } from '../../utils/enquiries.service'
 
 /**
  * All copy and configuration tokens kept centralized at the top
@@ -50,7 +51,7 @@ const COPY = {
 
 const TYPING_DELAY_MS = 550
 
-const ChatContactForm = ({ initialGoal = '' }) => {
+const ChatContactForm = ({ initialGoal = '', initialStage = '' }) => {
   // Conversation state machine: 'name' | 'stage' | 'goal' | 'done'
   const [currentStep, setCurrentStep] = useState('name')
   const [messages, setMessages] = useState([])
@@ -59,11 +60,26 @@ const ChatContactForm = ({ initialGoal = '' }) => {
   // Form field state
   const [formData, setFormData] = useState({
     name: '',
-    stage: '',
+    stage: initialStage,
     goal: initialGoal,
   })
   const [nameInput, setNameInput] = useState('')
   const [goalInput, setGoalInput] = useState(initialGoal)
+
+  // Sync props when initialGoal or initialStage change during render
+  const [prevInitialGoal, setPrevInitialGoal] = useState(initialGoal)
+  const [prevInitialStage, setPrevInitialStage] = useState(initialStage)
+
+  if (prevInitialGoal !== initialGoal) {
+    setPrevInitialGoal(initialGoal)
+    setGoalInput(initialGoal)
+    setFormData((prev) => ({ ...prev, goal: initialGoal }))
+  }
+
+  if (prevInitialStage !== initialStage) {
+    setPrevInitialStage(initialStage)
+    setFormData((prev) => ({ ...prev, stage: initialStage }))
+  }
 
   // Refs
   const messageAreaRef = useRef(null)
@@ -211,9 +227,27 @@ const ChatContactForm = ({ initialGoal = '' }) => {
   }
 
   /**
-   * Unified enquiry dispatcher - easily swappable with API/fetch in the future
+   * Unified enquiry dispatcher: submits data to Kaizen Ads backend API
+   * and opens the chosen communication channel (WhatsApp or Email)
    */
   const sendEnquiry = (channel) => {
+    // Submit lead payload to backend API (https://api.kaizenads.in/api/v1/enquiries)
+    try {
+      submitEnquiry({
+        name: formData.name,
+        stage: formData.stage,
+        goal: formData.goal,
+        channel: channel === 'whatsapp' ? 'whatsapp' : 'email',
+        services: [],
+        message: formData.goal,
+      }).catch((err) => {
+        // Gracefully log if API has network/validation issues without disrupting customer
+        console.warn('Backend enquiry submission notice:', err)
+      })
+    } catch (err) {
+      console.warn('API submission failed:', err)
+    }
+
     const rawMessage = COPY.formatTemplate(formData)
     const encodedMessage = encodeURIComponent(rawMessage)
 
