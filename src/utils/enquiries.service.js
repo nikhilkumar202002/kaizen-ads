@@ -70,7 +70,6 @@ export const enquiryService = {
 
 // Re-export other API services for convenience
 export { submitDiagnosticLead, createDiagnosticLead } from './diagnostics.service'
-export { subscribeNewsletter } from './newsletter.service'
 export {
   trackEvent,
   trackPhoneClick,

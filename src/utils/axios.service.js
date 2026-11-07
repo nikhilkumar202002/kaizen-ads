@@ -66,15 +66,4 @@ export const enquiryApi = {
   submit: (data) => apiClient.post('/enquiries', data),
 }
 
-export const newsletterApi = {
-  /**
-   * Subscribe to newsletter
-   * @param {{ email: string } | string} data
-   */
-  subscribe: (data) => {
-    const payload = typeof data === 'string' ? { email: data } : data
-    return apiClient.post('/newsletter', payload)
-  },
-}
-
 export default apiClient
