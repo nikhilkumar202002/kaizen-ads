@@ -24,6 +24,13 @@ const Header = () => {
         location.pathname.startsWith('/services')
       )
     }
+    if (href === '/contact') {
+      return (
+        location.pathname === '/contact' ||
+        location.pathname === '/contact-us' ||
+        location.pathname.startsWith('/contact')
+      )
+    }
     return location.pathname === href && !location.hash
   }
 
@@ -64,7 +71,7 @@ const Header = () => {
 
           {/* Right Side: Contact Button & 2-Line Hamburger Menu */}
           <div className="flex items-center gap-4 sm:gap-6">
-            <Button href="/#contact" variant="primary">
+            <Button href="/contact" variant="primary">
               Contact
             </Button>
 
@@ -116,7 +123,7 @@ const Header = () => {
           })}
           <div className="pt-2">
             <Button
-              href="/#contact"
+              href="/contact"
               variant="primary"
               size="md"
               className="w-full justify-center"

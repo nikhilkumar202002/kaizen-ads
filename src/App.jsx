@@ -3,6 +3,7 @@ import Layout from './components/layout/Layout'
 import Home from './pages/Home'
 import About from './pages/About'
 import OurService from './pages/OurService'
+import ContactUs from './pages/ContactUs'
 import LenisScrolling from './components/ui/LenisScrolling'
 
 const App = () => {
@@ -14,6 +15,8 @@ const App = () => {
           <Route path="about" element={<About />} />
           <Route path="services" element={<OurService />} />
           <Route path="our-service" element={<OurService />} />
+          <Route path="contact" element={<ContactUs />} />
+          <Route path="contact-us" element={<ContactUs />} />
         </Route>
       </Routes>
     </LenisScrolling>

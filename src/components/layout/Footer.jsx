@@ -25,7 +25,7 @@ const Footer = () => {
     { label: 'Services', href: '/services' },
     { label: 'Portfolios', href: '/#portfolio' },
     { label: 'Approach', href: '/#diagnostic' },
-    { label: 'Contact', href: '/#contact' },
+    { label: 'Contact', href: '/contact' },
     { label: 'Privacy Policy', href: '#' },
   ]
 
