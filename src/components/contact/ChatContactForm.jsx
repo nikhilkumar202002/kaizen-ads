@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { submitEnquiry } from '../../utils/enquiries.service'
+import { trackWhatsAppClick, trackEmailClick } from '../../utils/tracking.service'
 
 /**
  * All copy and configuration tokens kept centralized at the top
@@ -252,12 +253,14 @@ const ChatContactForm = ({ initialGoal = '', initialStage = '' }) => {
     const encodedMessage = encodeURIComponent(rawMessage)
 
     if (channel === 'whatsapp') {
+      trackWhatsAppClick(COPY.whatsappNumber)
       const url = `https://wa.me/${COPY.whatsappNumber}?text=${encodedMessage}`
       window.open(url, '_blank', 'noopener,noreferrer')
       return
     }
 
     if (channel === 'email') {
+      trackEmailClick(COPY.emailRecipient)
       const subject = encodeURIComponent(COPY.emailSubject)
       window.location.href = `mailto:${COPY.emailRecipient}?subject=${subject}&body=${encodedMessage}`
       return
