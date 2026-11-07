@@ -4,6 +4,7 @@ import FeaturedPortfolio from '../components/home/FeaturedPortfolio'
 import ServiceCards from '../components/home/ServiceCards'
 import BusinessQuestions from '../components/home/BusinessQuestions'
 import ProcessBuild from '../components/home/ProcessBuild'
+import TeamMembers from '../components/home/TeamMembers'
 import CtaHome from '../components/home/CtaHome'
 
 const Home = () => {
@@ -15,6 +16,7 @@ const Home = () => {
       <ServiceCards />
       <BusinessQuestions />
       <ProcessBuild />
+      <TeamMembers />
       <CtaHome />
     </>
   )

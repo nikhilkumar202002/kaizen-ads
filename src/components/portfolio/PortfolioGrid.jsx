@@ -193,29 +193,31 @@ const PortfolioGrid = () => {
     <section className="relative w-full bg-black text-white py-16 sm:py-24 lg:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Category Tabs Header (Zero border radius) */}
-        <div className="flex items-center justify-center mb-12 sm:mb-16">
-          <div className="flex items-center flex-wrap justify-center gap-2 sm:gap-2.5 p-1.5 border border-white/10 bg-[#14120E] rounded-none">
-            {categories.map((cat) => {
-              const isActive = activeCategory === cat
-              return (
-                <button
-                  key={cat}
-                  type="button"
-                  onClick={() => {
-                    setActiveCategory(cat)
-                    setLightboxIndex(null)
-                  }}
-                  className={`px-5 py-2.5 sm:px-6 sm:py-2.5 rounded-none font-sans text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer select-none ${
-                    isActive
-                      ? 'bg-primary text-white shadow-md'
-                      : 'text-white/70 hover:text-white hover:bg-white/5'
-                  }`}
-                >
-                  {cat}
-                </button>
-              )
-            })}
+        {/* Category Tabs Header (Horizontal scroll on mobile, centered on desktop) */}
+        <div className="w-full mb-10 sm:mb-16">
+          <div className="flex items-center overflow-x-auto no-scrollbar scroll-smooth sm:justify-center -mx-4 px-4 sm:mx-0 sm:px-0 py-1">
+            <div className="inline-flex items-center flex-nowrap sm:flex-wrap gap-2 sm:gap-2.5 p-1.5 border border-white/10 bg-[#14120E] rounded-none shrink-0 sm:shrink">
+              {categories.map((cat) => {
+                const isActive = activeCategory === cat
+                return (
+                  <button
+                    key={cat}
+                    type="button"
+                    onClick={() => {
+                      setActiveCategory(cat)
+                      setLightboxIndex(null)
+                    }}
+                    className={`shrink-0 whitespace-nowrap px-4 py-2 sm:px-6 sm:py-2.5 rounded-none font-sans text-xs sm:text-sm font-semibold transition-all duration-200 cursor-pointer select-none ${
+                      isActive
+                        ? 'bg-primary text-white shadow-md'
+                        : 'text-white/70 hover:text-white hover:bg-white/5'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                )
+              })}
+            </div>
           </div>
         </div>
 
