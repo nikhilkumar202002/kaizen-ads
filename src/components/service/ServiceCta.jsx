@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Button from '../ui/Button'
+import { trackPhoneClick } from '../../utils/tracking.service'
 
 const ServiceCta = ({
   buttonVariant = 'white',
@@ -66,7 +67,8 @@ const ServiceCta = ({
               {/* Standardized Button Component */}
               <div className="mt-8 sm:mt-10 lg:mt-12">
                 <Button
-                  href="#contact"
+                  href="tel:+919605281668"
+                  onClick={() => trackPhoneClick('+919605281668')}
                   variant={buttonVariant}
                   text="Book a discovery call"
                 />

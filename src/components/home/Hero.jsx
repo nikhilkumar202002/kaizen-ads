@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import Button from '../ui/Button'
+import { trackPhoneClick } from '../../utils/tracking.service'
 
 const Hero = () => {
   const headingLines = [
@@ -94,7 +95,8 @@ const Hero = () => {
                 variants={fadeUpVariant}
               >
                 <Button
-                  href="#contact"
+                  href="tel:+919605281668"
+                  onClick={() => trackPhoneClick('+919605281668')}
                   variant="primary"
                   text="Book a discovery call"
                 />

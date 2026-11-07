@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
+import { trackPhoneClick } from '../../utils/tracking.service'
 
 const goals = [
   { id: 'all', label: 'Show everything' },
@@ -551,7 +552,11 @@ const ServiceGrid = () => {
         <div className="pt-2">
           <p className="font-sans text-neutral-400 text-sm sm:text-base">
             Not sure?{' '}
-            <a href="#contact" className="text-white hover:text-primary underline underline-offset-4 transition-colors">
+            <a
+              href="tel:+919605281668"
+              onClick={() => trackPhoneClick('+919605281668')}
+              className="text-white hover:text-primary underline underline-offset-4 transition-colors"
+            >
               Book a discovery call
             </a>{' '}
             and we&rsquo;ll tell you what makes sense, and what doesn&rsquo;t.

@@ -11,36 +11,31 @@ const teamMembersData = [
     id: 'team-01',
     name: 'Mohammad Midhlaj',
     designation: 'Founder and CEO',
-    image:
-      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&auto=format&fit=crop&q=80',
+    image: '/Team/ceo.jpg',
   },
   {
     id: 'team-02',
     name: 'Aleena Sunil',
     designation: 'Social Media Manager',
-    image:
-      'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=900&auto=format&fit=crop&q=80',
+    image: '/Team/creative-director.jpg',
   },
   {
     id: 'team-03',
     name: 'Keziah Jossy',
     designation: 'Sales Executive',
-    image:
-      'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=900&auto=format&fit=crop&q=80',
+    image: '/Team/keziah.jpg',
   },
   {
     id: 'team-04',
     name: 'Arshada K',
     designation: 'Project Coordinator',
-    image:
-      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=900&auto=format&fit=crop&q=80',
+    image: '/Team/arshada.jpg',
   },
   {
     id: 'team-05',
     name: 'Muhammad Midlaj',
     designation: 'Graphic Designer',
-    image:
-      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=900&auto=format&fit=crop&q=80',
+    image: '/Team/midlaj.jpg',
   },
 ]
 
