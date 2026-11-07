@@ -10,7 +10,7 @@ const Header = () => {
     { label: 'Home', href: '/' },
     { label: 'About', href: '/about' },
     { label: 'Services', href: '/services' },
-    { label: 'Portfolio', href: '/#portfolio' },
+    { label: 'Portfolio', href: '/portfolio' },
   ]
 
   const checkIsActive = (href) => {
@@ -22,6 +22,13 @@ const Header = () => {
         location.pathname === '/services' ||
         location.pathname === '/our-service' ||
         location.pathname.startsWith('/services')
+      )
+    }
+    if (href === '/portfolio') {
+      return (
+        location.pathname === '/portfolio' ||
+        location.pathname === '/our-portfolio' ||
+        location.pathname.startsWith('/portfolio')
       )
     }
     if (href === '/contact') {

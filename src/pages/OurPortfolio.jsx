@@ -1,8 +1,10 @@
-import React from 'react'
+import PortfolioBanner from '../components/portfolio/PortfolioBanner'
 
 const OurPortfolio = () => {
   return (
-    <div>OurPortfolio</div>
+    <>
+      <PortfolioBanner />
+    </>
   )
 }
 

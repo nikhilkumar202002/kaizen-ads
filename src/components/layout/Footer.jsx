@@ -4,7 +4,7 @@ import { FiMail } from 'react-icons/fi'
 const Footer = () => {
   const pagesLinks = [
     { label: 'About Us', href: '/about' },
-    { label: 'Our Work', href: '/#portfolio' },
+    { label: 'Our Work', href: '/portfolio' },
     { label: 'Services', href: '/services' },
     { label: 'Digital Marketing', href: '/services' },
     { label: 'Web Development', href: '/services' },
@@ -23,7 +23,7 @@ const Footer = () => {
   const companyLinks = [
     { label: 'About', href: '/about' },
     { label: 'Services', href: '/services' },
-    { label: 'Portfolios', href: '/#portfolio' },
+    { label: 'Portfolios', href: '/portfolio' },
     { label: 'Approach', href: '/#diagnostic' },
     { label: 'Contact', href: '/contact' },
     { label: 'Privacy Policy', href: '#' },
