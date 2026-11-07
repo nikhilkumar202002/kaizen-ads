@@ -1,9 +1,8 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { submitEnquiry } from '../../utils/enquiries.service'
-import { trackWhatsAppClick, trackEmailClick } from '../../utils/tracking.service'
 
 /**
- * All copy and configuration tokens kept centralized at the top
+ * All copy, questions, and service options centralized
  */
 const COPY = {
   header: {
@@ -13,82 +12,116 @@ const COPY = {
   },
   steps: {
     name: {
-      question: "Hi! 👋 We’re the Kaizen Ads team. What’s your name?",
+      question: "Hi! 👋 Welcome to Kaizen Ads. What’s your full name?",
       placeholder: 'Type your name',
-      ariaLabel: 'Type your name',
+      ariaLabel: 'Enter your full name',
     },
-    stage: {
-      question: (name) => `Nice to meet you, ${name}. Where are you today?`,
+    phone: {
+      question: (name) => `Nice to meet you, ${name}! What’s your phone number?`,
+      placeholder: 'e.g. +91 96052 81668',
+      ariaLabel: 'Enter your phone number',
+    },
+    whatsapp: {
+      question: "Thanks! What’s your WhatsApp number?",
+      placeholder: 'Type WhatsApp number if different',
+      sameAsPhoneLabel: (phone) => `Same as phone (${phone})`,
+      ariaLabel: 'Enter your WhatsApp number',
+    },
+    email: {
+      question: "Got it! What’s your email address so we can send proposals & updates?",
+      placeholder: 'name@example.com',
+      ariaLabel: 'Enter your email address',
+    },
+    services: {
+      question: "Which services are you looking for? (Select one or multiple)",
       options: [
-        'Starting something new',
-        'Growing an existing business',
+        'Branding & Design',
+        'Performance Marketing',
+        'Social Media Creatives',
+        'Web & Technology',
+        'Video & Production',
+        'Packaging & Print',
+        'Growth Strategy',
         'Not sure yet',
       ],
-      ariaLabel: 'Select where your business is today',
+      confirmLabel: 'Continue with selected',
+      ariaLabel: 'Select services',
     },
-    goal: {
-      question:
-        'Got it. What are you trying to achieve? “Not sure yet” is a fine answer.',
-      placeholder:
-        'A new brand, more enquiries, a website… or just “not sure yet”.',
-      ariaLabel: 'Describe what you are trying to achieve',
+    message: {
+      question: "Almost done! Tell us a bit about your project, timeline, or goals.",
+      placeholder: 'Briefly describe what you’re looking to achieve…',
+      skipLabel: 'Skip & Send Enquiry',
+      sendLabel: 'Send Enquiry',
+      ariaLabel: 'Enter project details or message',
     },
     done: {
-      question: (name) =>
-        `Thanks, ${name}! Choose how you’d like to send this and we’ll take it from there.`,
-      whatsappLabel: 'Send on WhatsApp',
-      emailLabel: 'Send by email',
-      resetLabel: 'Start over',
+      success: (name, phone, email) =>
+        `🎉 Thank you, ${name}! Your enquiry has been submitted successfully.\n\nOur team has received your project details and will get in touch with you shortly at ${phone || email}.`,
+      fallbackSuccess: (name, contact) =>
+        `🎉 Thank you, ${name}! Your enquiry has been received. Our team will review your requirements and reach out to you at ${contact} shortly.`,
+      resetLabel: 'Start over / New enquiry',
     },
   },
   sendAriaLabel: 'Send',
   typingAriaLabel: 'Kaizen Ads is typing…',
-  whatsappNumber: '919605281668',
-  emailRecipient: 'info@kaizenads.in',
-  emailSubject: 'Discovery call enquiry',
-  formatTemplate: ({ name, stage, goal }) =>
-    `Hi Kaizen Ads, I’m ${name}.\nStage: ${stage}\n\n${goal}`,
 }
 
 const TYPING_DELAY_MS = 550
 
 const ChatContactForm = ({ initialGoal = '', initialStage = '' }) => {
-  // Conversation state machine: 'name' | 'stage' | 'goal' | 'done'
+  // Conversation state machine: 'name' | 'phone' | 'whatsapp' | 'email' | 'services' | 'message' | 'done'
   const [currentStep, setCurrentStep] = useState('name')
   const [messages, setMessages] = useState([])
   const [isTyping, setIsTyping] = useState(true)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   // Form field state
   const [formData, setFormData] = useState({
     name: '',
-    stage: initialStage,
-    goal: initialGoal,
+    phone: '',
+    whatsapp: '',
+    email: '',
+    services: initialGoal ? [initialGoal] : [],
+    message: '',
   })
+
+  // Individual active input values
   const [nameInput, setNameInput] = useState('')
-  const [goalInput, setGoalInput] = useState(initialGoal)
+  const [phoneInput, setPhoneInput] = useState('')
+  const [whatsappInput, setWhatsappInput] = useState('')
+  const [emailInput, setEmailInput] = useState('')
+  const [selectedServices, setSelectedServices] = useState(
+    initialGoal ? [initialGoal] : []
+  )
+  const [messageInput, setMessageInput] = useState('')
 
-  // Sync props when initialGoal or initialStage change during render
+  // Sync props during render
   const [prevInitialGoal, setPrevInitialGoal] = useState(initialGoal)
-  const [prevInitialStage, setPrevInitialStage] = useState(initialStage)
-
   if (prevInitialGoal !== initialGoal) {
     setPrevInitialGoal(initialGoal)
-    setGoalInput(initialGoal)
-    setFormData((prev) => ({ ...prev, goal: initialGoal }))
+    if (initialGoal) {
+      setSelectedServices((prev) =>
+        prev.includes(initialGoal) ? prev : [...prev, initialGoal]
+      )
+      setFormData((prev) => ({
+        ...prev,
+        services: prev.services.includes(initialGoal)
+          ? prev.services
+          : [...prev.services, initialGoal],
+      }))
+    }
   }
 
-  if (prevInitialStage !== initialStage) {
-    setPrevInitialStage(initialStage)
-    setFormData((prev) => ({ ...prev, stage: initialStage }))
-  }
-
-  // Refs
+  // Refs for auto-focusing
   const messageAreaRef = useRef(null)
   const typingTimerRef = useRef(null)
   const nameInputRef = useRef(null)
-  const goalInputRef = useRef(null)
+  const phoneInputRef = useRef(null)
+  const whatsappInputRef = useRef(null)
+  const emailInputRef = useRef(null)
+  const messageInputRef = useRef(null)
 
-  // Clear any active typing timer helper
+  // Clear typing timer helper
   const clearTypingTimer = useCallback(() => {
     if (typingTimerRef.current) {
       clearTimeout(typingTimerRef.current)
@@ -110,7 +143,7 @@ const ChatContactForm = ({ initialGoal = '', initialStage = '' }) => {
     scrollToBottom()
   }, [messages, isTyping, scrollToBottom])
 
-  // Mount effect: show typing for 550ms, then deliver the first greeting message
+  // Mount effect: show typing for 550ms, then deliver the first greeting question
   useEffect(() => {
     typingTimerRef.current = setTimeout(() => {
       setMessages([
@@ -129,11 +162,11 @@ const ChatContactForm = ({ initialGoal = '', initialStage = '' }) => {
   // Focus appropriate input when step changes
   useEffect(() => {
     if (!isTyping) {
-      if (currentStep === 'name') {
-        nameInputRef.current?.focus()
-      } else if (currentStep === 'goal') {
-        goalInputRef.current?.focus()
-      }
+      if (currentStep === 'name') nameInputRef.current?.focus()
+      else if (currentStep === 'phone') phoneInputRef.current?.focus()
+      else if (currentStep === 'whatsapp') whatsappInputRef.current?.focus()
+      else if (currentStep === 'email') emailInputRef.current?.focus()
+      else if (currentStep === 'message') messageInputRef.current?.focus()
     }
   }, [currentStep, isTyping])
 
@@ -163,7 +196,7 @@ const ChatContactForm = ({ initialGoal = '', initialStage = '' }) => {
     [clearTypingTimer]
   )
 
-  // Step 1: Name submit handler
+  // Step 1: Name submit
   const handleNameSubmit = (e) => {
     e?.preventDefault()
     const trimmed = nameInput.trim()
@@ -172,98 +205,167 @@ const ChatContactForm = ({ initialGoal = '', initialStage = '' }) => {
     setFormData((prev) => ({ ...prev, name: trimmed }))
     setMessages((prev) => [
       ...prev,
-      {
-        id: `visitor-${Date.now()}`,
-        sender: 'visitor',
-        text: trimmed,
-      },
+      { id: `visitor-${Date.now()}`, sender: 'visitor', text: trimmed },
     ])
     setNameInput('')
 
-    triggerKaizenResponse(COPY.steps.stage.question(trimmed), 'stage')
+    triggerKaizenResponse(COPY.steps.phone.question(trimmed), 'phone')
   }
 
-  // Step 2: Stage pill select handler
-  const handleStageSelect = (selectedStage) => {
-    if (isTyping) return
-
-    setFormData((prev) => ({ ...prev, stage: selectedStage }))
-    setMessages((prev) => [
-      ...prev,
-      {
-        id: `visitor-${Date.now()}`,
-        sender: 'visitor',
-        text: selectedStage,
-      },
-    ])
-
-    triggerKaizenResponse(COPY.steps.goal.question, 'goal')
-  }
-
-  // Step 3: Goal submit handler
-  const handleGoalSubmit = (e) => {
+  // Step 2: Phone submit
+  const handlePhoneSubmit = (e) => {
     e?.preventDefault()
-    const trimmed = goalInput.trim()
+    const trimmed = phoneInput.trim()
     if (!trimmed || isTyping) return
 
-    setFormData((prev) => ({ ...prev, goal: trimmed }))
+    setFormData((prev) => ({ ...prev, phone: trimmed }))
+    setMessages((prev) => [
+      ...prev,
+      { id: `visitor-${Date.now()}`, sender: 'visitor', text: trimmed },
+    ])
+    setPhoneInput('')
+
+    triggerKaizenResponse(COPY.steps.whatsapp.question, 'whatsapp')
+  }
+
+  // Step 3: WhatsApp submit (custom or same as phone)
+  const handleWhatsappSubmit = (valueToUse) => {
+    const val = (typeof valueToUse === 'string' ? valueToUse : whatsappInput).trim()
+    if (!val || isTyping) return
+
+    setFormData((prev) => ({ ...prev, whatsapp: val }))
+    setMessages((prev) => [
+      ...prev,
+      { id: `visitor-${Date.now()}`, sender: 'visitor', text: val },
+    ])
+    setWhatsappInput('')
+
+    triggerKaizenResponse(COPY.steps.email.question, 'email')
+  }
+
+  // Step 4: Email submit
+  const handleEmailSubmit = (e) => {
+    e?.preventDefault()
+    const trimmed = emailInput.trim()
+    if (!trimmed || isTyping) return
+
+    setFormData((prev) => ({ ...prev, email: trimmed }))
+    setMessages((prev) => [
+      ...prev,
+      { id: `visitor-${Date.now()}`, sender: 'visitor', text: trimmed },
+    ])
+    setEmailInput('')
+
+    triggerKaizenResponse(COPY.steps.services.question, 'services')
+  }
+
+  // Step 5: Service selection toggle
+  const toggleService = (service) => {
+    if (service === 'Not sure yet') {
+      setSelectedServices(['Not sure yet'])
+      return
+    }
+
+    setSelectedServices((prev) => {
+      const filtered = prev.filter((s) => s !== 'Not sure yet')
+      return filtered.includes(service)
+        ? filtered.filter((s) => s !== service)
+        : [...filtered, service]
+    })
+  }
+
+  // Step 5: Service submit
+  const handleServicesSubmit = () => {
+    if (selectedServices.length === 0 || isTyping) return
+
+    setFormData((prev) => ({ ...prev, services: selectedServices }))
     setMessages((prev) => [
       ...prev,
       {
         id: `visitor-${Date.now()}`,
         sender: 'visitor',
-        text: trimmed,
+        text: selectedServices.join(', '),
       },
     ])
 
-    triggerKaizenResponse(COPY.steps.done.question(formData.name), 'done')
+    triggerKaizenResponse(COPY.steps.message.question, 'message')
   }
 
-  // Goal textarea Enter / Shift+Enter keydown handler
-  const handleGoalKeyDown = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      handleGoalSubmit()
+  // Step 6: Message submit & Final API Dispatch
+  const handleMessageSubmit = async (skipped = false) => {
+    if (isTyping || isSubmitting) return
+    const trimmed = skipped ? '' : messageInput.trim()
+    const visitorText = trimmed || 'Ready to submit enquiry'
+
+    const updatedFormData = {
+      ...formData,
+      message: trimmed || 'No additional message',
     }
-  }
+    setFormData(updatedFormData)
 
-  /**
-   * Unified enquiry dispatcher: submits data to Kaizen Ads backend API
-   * and opens the chosen communication channel (WhatsApp or Email)
-   */
-  const sendEnquiry = (channel) => {
-    // Submit lead payload to backend API (https://api.kaizenads.in/api/v1/enquiries)
+    setMessages((prev) => [
+      ...prev,
+      {
+        id: `visitor-${Date.now()}`,
+        sender: 'visitor',
+        text: visitorText,
+      },
+    ])
+    setMessageInput('')
+    setIsSubmitting(true)
+
+    // Trigger typing indicator while API submits
+    clearTypingTimer()
+    setIsTyping(true)
+
     try {
-      submitEnquiry({
-        name: formData.name,
-        stage: formData.stage,
-        goal: formData.goal,
-        channel: channel === 'whatsapp' ? 'whatsapp' : 'email',
-        services: [],
-        message: formData.goal,
-      }).catch((err) => {
-        // Gracefully log if API has network/validation issues without disrupting customer
-        console.warn('Backend enquiry submission notice:', err)
+      await submitEnquiry({
+        name: updatedFormData.name,
+        phone: updatedFormData.phone,
+        whatsapp: updatedFormData.whatsapp || updatedFormData.phone,
+        email: updatedFormData.email,
+        services: updatedFormData.services,
+        message: updatedFormData.message,
+        stage: initialStage || 'Growing Business',
+        goal: updatedFormData.services.join(', ') || updatedFormData.message,
+        channel: 'email',
       })
+
+      setTimeout(() => {
+        setIsTyping(false)
+        setIsSubmitting(false)
+        setCurrentStep('done')
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: `kaizen-done-${Date.now()}`,
+            sender: 'kaizen',
+            text: COPY.steps.done.success(
+              updatedFormData.name,
+              updatedFormData.phone,
+              updatedFormData.email
+            ),
+          },
+        ])
+      }, TYPING_DELAY_MS)
     } catch (err) {
-      console.warn('API submission failed:', err)
-    }
-
-    const rawMessage = COPY.formatTemplate(formData)
-    const encodedMessage = encodeURIComponent(rawMessage)
-
-    if (channel === 'whatsapp') {
-      trackWhatsAppClick(COPY.whatsappNumber)
-      const url = `https://wa.me/${COPY.whatsappNumber}?text=${encodedMessage}`
-      window.open(url, '_blank', 'noopener,noreferrer')
-      return
-    }
-
-    if (channel === 'email') {
-      trackEmailClick(COPY.emailRecipient)
-      const subject = encodeURIComponent(COPY.emailSubject)
-      window.location.href = `mailto:${COPY.emailRecipient}?subject=${subject}&body=${encodedMessage}`
-      return
+      console.warn('Enquiry submission feedback:', err)
+      setTimeout(() => {
+        setIsTyping(false)
+        setIsSubmitting(false)
+        setCurrentStep('done')
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: `kaizen-done-${Date.now()}`,
+            sender: 'kaizen',
+            text: COPY.steps.done.fallbackSuccess(
+              updatedFormData.name,
+              updatedFormData.email || updatedFormData.phone
+            ),
+          },
+        ])
+      }, TYPING_DELAY_MS)
     }
   }
 
@@ -272,11 +374,19 @@ const ChatContactForm = ({ initialGoal = '', initialStage = '' }) => {
     clearTypingTimer()
     setCurrentStep('name')
     setNameInput('')
-    setGoalInput(initialGoal)
+    setPhoneInput('')
+    setWhatsappInput('')
+    setEmailInput('')
+    setSelectedServices(initialGoal ? [initialGoal] : [])
+    setMessageInput('')
+    setIsSubmitting(false)
     setFormData({
       name: '',
-      stage: '',
-      goal: initialGoal,
+      phone: '',
+      whatsapp: '',
+      email: '',
+      services: initialGoal ? [initialGoal] : [],
+      message: '',
     })
     setMessages([])
     setIsTyping(true)
@@ -296,24 +406,38 @@ const ChatContactForm = ({ initialGoal = '', initialStage = '' }) => {
   return (
     <div className="w-full max-w-[560px] mx-auto rounded-[28px] border border-chat-line bg-chat-card overflow-hidden flex flex-col shadow-2xl transition-colors duration-200">
       {/* 1. HEADER BAR */}
-      <header className="bg-chat-ink text-chat-bg px-5 py-4 sm:px-6 sm:py-4.5 flex items-center gap-3.5 select-none">
-        {/* 42px Red Circle Avatar with white "K" */}
-        <div
-          aria-hidden="true"
-          className="w-[42px] h-[42px] rounded-full bg-brand-red text-white flex items-center justify-center font-heading font-extrabold text-xl leading-none shrink-0 shadow-sm"
-        >
-          {COPY.header.avatarLetter}
+      <header className="bg-chat-ink text-chat-bg px-5 py-4 sm:px-6 sm:py-4.5 flex items-center justify-between select-none">
+        <div className="flex items-center gap-3.5">
+          {/* 42px Red Circle Avatar with white "K" */}
+          <div
+            aria-hidden="true"
+            className="w-[42px] h-[42px] rounded-full bg-brand-red text-white flex items-center justify-center font-heading font-extrabold text-xl leading-none shrink-0 shadow-sm"
+          >
+            {COPY.header.avatarLetter}
+          </div>
+
+          {/* Brand info */}
+          <div className="flex flex-col min-w-0">
+            <h2 className="font-heading font-bold text-base sm:text-lg text-chat-bg leading-tight truncate">
+              {COPY.header.title}
+            </h2>
+            <p className="font-sans text-xs sm:text-sm text-chat-bg/70 leading-normal truncate">
+              {COPY.header.subtitle}
+            </p>
+          </div>
         </div>
 
-        {/* Brand info */}
-        <div className="flex flex-col min-w-0">
-          <h2 className="font-heading font-bold text-base sm:text-lg text-chat-bg leading-tight truncate">
-            {COPY.header.title}
-          </h2>
-          <p className="font-sans text-xs sm:text-sm text-chat-bg/70 leading-normal truncate">
-            {COPY.header.subtitle}
-          </p>
-        </div>
+        {/* Step indicator pill */}
+        {currentStep !== 'done' && (
+          <span className="font-sans text-[11px] sm:text-xs font-semibold px-2.5 py-1 rounded-full bg-white/10 text-chat-bg/80">
+            {currentStep === 'name' && 'Step 1 of 6'}
+            {currentStep === 'phone' && 'Step 2 of 6'}
+            {currentStep === 'whatsapp' && 'Step 3 of 6'}
+            {currentStep === 'email' && 'Step 4 of 6'}
+            {currentStep === 'services' && 'Step 5 of 6'}
+            {currentStep === 'message' && 'Step 6 of 6'}
+          </span>
+        )}
       </header>
 
       {/* 2. MESSAGE AREA */}
@@ -321,7 +445,7 @@ const ChatContactForm = ({ initialGoal = '', initialStage = '' }) => {
         ref={messageAreaRef}
         role="log"
         aria-live="polite"
-        className="bg-chat-alt-bg h-[360px] overflow-y-auto p-[22px] flex flex-col gap-[10px] scroll-smooth"
+        className="bg-chat-alt-bg h-[370px] overflow-y-auto p-[22px] flex flex-col gap-[10px] scroll-smooth"
       >
         {messages.map((msg) => {
           const isKaizen = msg.sender === 'kaizen'
@@ -330,7 +454,7 @@ const ChatContactForm = ({ initialGoal = '', initialStage = '' }) => {
             return (
               <div
                 key={msg.id}
-                className="self-start max-w-[84%] bg-chat-card border border-chat-line text-chat-ink rounded-[20px] rounded-bl-[6px] px-4 py-3 sm:px-4.5 sm:py-3.5 font-sans text-sm sm:text-base leading-relaxed [overflow-wrap:anywhere] break-words animate-pop motion-reduce:animate-none shadow-xs"
+                className="self-start max-w-[84%] bg-chat-card border border-chat-line text-chat-ink rounded-[20px] rounded-bl-[6px] px-4 py-3 sm:px-4.5 sm:py-3.5 font-sans text-sm sm:text-base leading-relaxed [overflow-wrap:anywhere] break-words whitespace-pre-line animate-pop motion-reduce:animate-none shadow-xs"
               >
                 {msg.text}
               </div>
@@ -410,49 +534,27 @@ const ChatContactForm = ({ initialGoal = '', initialStage = '' }) => {
           </form>
         )}
 
-        {/* Step 2: Stage selection pills */}
-        {currentStep === 'stage' && (
-          <div
-            role="group"
-            aria-label={COPY.steps.stage.ariaLabel}
-            className="flex flex-wrap gap-2 w-full items-center"
-          >
-            {COPY.steps.stage.options.map((option) => (
-              <button
-                key={option}
-                type="button"
-                disabled={isTyping}
-                onClick={() => handleStageSelect(option)}
-                className="bg-chat-alt-bg hover:bg-chat-line/40 text-chat-ink border border-chat-line rounded-full px-3.5 sm:px-4 py-2 text-xs sm:text-sm font-sans font-medium focus:outline-none focus:ring-2 focus:ring-brand-red focus:ring-offset-2 transition-colors cursor-pointer text-left disabled:opacity-50 select-none"
-              >
-                {option}
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* Step 3: Goal textarea */}
-        {currentStep === 'goal' && (
+        {/* Step 2: Phone number input */}
+        {currentStep === 'phone' && (
           <form
-            onSubmit={handleGoalSubmit}
-            className="w-full flex items-end gap-2.5"
+            onSubmit={handlePhoneSubmit}
+            className="w-full flex items-center gap-2.5"
           >
-            <textarea
-              ref={goalInputRef}
-              rows={2}
-              value={goalInput}
-              onChange={(e) => setGoalInput(e.target.value)}
-              onKeyDown={handleGoalKeyDown}
-              placeholder={COPY.steps.goal.placeholder}
-              aria-label={COPY.steps.goal.ariaLabel}
+            <input
+              ref={phoneInputRef}
+              type="tel"
+              value={phoneInput}
+              onChange={(e) => setPhoneInput(e.target.value)}
+              placeholder={COPY.steps.phone.placeholder}
+              aria-label={COPY.steps.phone.ariaLabel}
               disabled={isTyping}
-              className="flex-1 bg-chat-alt-bg text-chat-ink placeholder:text-chat-muted border border-chat-line rounded-2xl p-3 font-sans text-sm sm:text-base resize-none focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition-all leading-normal disabled:opacity-60"
+              className="flex-1 bg-chat-alt-bg text-chat-ink placeholder:text-chat-muted border border-chat-line rounded-full px-4 sm:px-5 py-2.5 sm:py-3 font-sans text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition-all disabled:opacity-60"
             />
             <button
               type="submit"
-              disabled={!goalInput.trim() || isTyping}
+              disabled={!phoneInput.trim() || isTyping}
               aria-label={COPY.sendAriaLabel}
-              className="w-[46px] h-[46px] rounded-full bg-brand-red text-white flex items-center justify-center shrink-0 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-brand-red focus:ring-offset-2 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed select-none mb-0.5 shadow-sm"
+              className="w-[46px] h-[46px] rounded-full bg-brand-red text-white flex items-center justify-center shrink-0 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-brand-red focus:ring-offset-2 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed select-none shadow-sm"
             >
               <svg
                 className="w-5 h-5 -rotate-45 translate-x-0.5"
@@ -471,52 +573,225 @@ const ChatContactForm = ({ initialGoal = '', initialStage = '' }) => {
           </form>
         )}
 
-        {/* Step 4: Final sending actions */}
-        {currentStep === 'done' && (
-          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 w-full">
-            {/* WhatsApp action */}
-            <button
-              type="button"
-              onClick={() => sendEnquiry('whatsapp')}
-              className="bg-brand-red hover:opacity-95 text-white font-sans text-xs sm:text-sm font-semibold py-2.5 px-4 rounded-full flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-brand-red focus:ring-offset-2 transition-all cursor-pointer shadow-sm select-none"
+        {/* Step 3: WhatsApp input with quick "Same as phone" pill */}
+        {currentStep === 'whatsapp' && (
+          <div className="w-full flex flex-col gap-2.5">
+            {formData.phone && (
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleWhatsappSubmit(formData.phone)}
+                  disabled={isTyping}
+                  className="bg-brand-red text-white text-xs sm:text-sm font-sans font-medium px-4 py-1.5 rounded-full hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-brand-red transition-all cursor-pointer shadow-xs select-none"
+                >
+                  {COPY.steps.whatsapp.sameAsPhoneLabel(formData.phone)}
+                </button>
+              </div>
+            )}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault()
+                handleWhatsappSubmit(whatsappInput)
+              }}
+              className="w-full flex items-center gap-2.5"
             >
-              <svg
-                className="w-4 h-4 shrink-0 fill-current"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
+              <input
+                ref={whatsappInputRef}
+                type="tel"
+                value={whatsappInput}
+                onChange={(e) => setWhatsappInput(e.target.value)}
+                placeholder={COPY.steps.whatsapp.placeholder}
+                aria-label={COPY.steps.whatsapp.ariaLabel}
+                disabled={isTyping}
+                className="flex-1 bg-chat-alt-bg text-chat-ink placeholder:text-chat-muted border border-chat-line rounded-full px-4 sm:px-5 py-2.5 sm:py-3 font-sans text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition-all disabled:opacity-60"
+              />
+              <button
+                type="submit"
+                disabled={!whatsappInput.trim() || isTyping}
+                aria-label={COPY.sendAriaLabel}
+                className="w-[46px] h-[46px] rounded-full bg-brand-red text-white flex items-center justify-center shrink-0 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-brand-red focus:ring-offset-2 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed select-none shadow-sm"
               >
-                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
-              </svg>
-              <span>{COPY.steps.done.whatsappLabel}</span>
-            </button>
+                <svg
+                  className="w-5 h-5 -rotate-45 translate-x-0.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+              </button>
+            </form>
+          </div>
+        )}
 
-            {/* Email action */}
+        {/* Step 4: Email input */}
+        {currentStep === 'email' && (
+          <form
+            onSubmit={handleEmailSubmit}
+            className="w-full flex items-center gap-2.5"
+          >
+            <input
+              ref={emailInputRef}
+              type="email"
+              value={emailInput}
+              onChange={(e) => setEmailInput(e.target.value)}
+              placeholder={COPY.steps.email.placeholder}
+              aria-label={COPY.steps.email.ariaLabel}
+              disabled={isTyping}
+              className="flex-1 bg-chat-alt-bg text-chat-ink placeholder:text-chat-muted border border-chat-line rounded-full px-4 sm:px-5 py-2.5 sm:py-3 font-sans text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition-all disabled:opacity-60"
+            />
             <button
-              type="button"
-              onClick={() => sendEnquiry('email')}
-              className="border border-chat-line hover:border-chat-ink bg-transparent text-chat-ink font-sans text-xs sm:text-sm font-semibold py-2.5 px-4 rounded-full flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-brand-red focus:ring-offset-2 transition-colors cursor-pointer select-none"
+              type="submit"
+              disabled={!emailInput.trim() || !emailInput.includes('@') || isTyping}
+              aria-label={COPY.sendAriaLabel}
+              className="w-[46px] h-[46px] rounded-full bg-brand-red text-white flex items-center justify-center shrink-0 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-brand-red focus:ring-offset-2 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed select-none shadow-sm"
             >
               <svg
-                className="w-4 h-4 shrink-0"
+                className="w-5 h-5 -rotate-45 translate-x-0.5"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 aria-hidden="true"
               >
-                <rect width="20" height="16" x="2" y="4" rx="2" />
-                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
               </svg>
-              <span>{COPY.steps.done.emailLabel}</span>
             </button>
+          </form>
+        )}
 
-            {/* Reset / Start over action */}
+        {/* Step 5: Service selecting pills */}
+        {currentStep === 'services' && (
+          <div className="w-full flex flex-col gap-3 py-1">
+            <div
+              role="group"
+              aria-label={COPY.steps.services.ariaLabel}
+              className="flex flex-wrap gap-2 w-full items-center max-h-[140px] overflow-y-auto no-scrollbar"
+            >
+              {COPY.steps.services.options.map((option) => {
+                const isSelected = selectedServices.includes(option)
+                return (
+                  <button
+                    key={option}
+                    type="button"
+                    disabled={isTyping}
+                    onClick={() => toggleService(option)}
+                    className={`rounded-full px-3.5 py-1.5 text-xs sm:text-sm font-sans font-medium transition-all cursor-pointer select-none border ${
+                      isSelected
+                        ? 'bg-brand-red border-brand-red text-white shadow-xs'
+                        : 'bg-chat-alt-bg hover:bg-chat-line/40 text-chat-ink border-chat-line'
+                    }`}
+                  >
+                    {isSelected ? `✓ ${option}` : option}
+                  </button>
+                )
+              })}
+            </div>
+
+            <div className="flex items-center justify-between pt-1 border-t border-chat-line/60">
+              <span className="font-sans text-xs text-chat-muted">
+                {selectedServices.length === 0
+                  ? 'Select at least 1 service'
+                  : `${selectedServices.length} selected`}
+              </span>
+              <button
+                type="button"
+                onClick={handleServicesSubmit}
+                disabled={selectedServices.length === 0 || isTyping}
+                className="bg-brand-red hover:opacity-95 text-white text-xs sm:text-sm font-sans font-semibold py-2 px-5 rounded-full transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed shadow-sm select-none"
+              >
+                {COPY.steps.services.confirmLabel} →
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Step 6: Message input / Send */}
+        {currentStep === 'message' && (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault()
+              handleMessageSubmit(false)
+            }}
+            className="w-full flex flex-col gap-2.5"
+          >
+            <div className="flex items-end gap-2.5">
+              <textarea
+                ref={messageInputRef}
+                rows={2}
+                value={messageInput}
+                onChange={(e) => setMessageInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault()
+                    handleMessageSubmit(false)
+                  }
+                }}
+                placeholder={COPY.steps.message.placeholder}
+                aria-label={COPY.steps.message.ariaLabel}
+                disabled={isTyping || isSubmitting}
+                className="flex-1 bg-chat-alt-bg text-chat-ink placeholder:text-chat-muted border border-chat-line rounded-2xl p-3 font-sans text-sm sm:text-base resize-none focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition-all leading-normal disabled:opacity-60"
+              />
+              <button
+                type="submit"
+                disabled={isTyping || isSubmitting}
+                aria-label={COPY.steps.message.sendLabel}
+                className="w-[46px] h-[46px] rounded-full bg-brand-red text-white flex items-center justify-center shrink-0 hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-brand-red focus:ring-offset-2 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed select-none mb-0.5 shadow-sm"
+              >
+                {isSubmitting ? (
+                  <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                ) : (
+                  <svg
+                    className="w-5 h-5 -rotate-45 translate-x-0.5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M5 12h14" />
+                    <path d="m12 5 7 7-7 7" />
+                  </svg>
+                )}
+              </button>
+            </div>
+
+            {/* Quick skip action */}
+            <div className="flex items-center justify-end">
+              <button
+                type="button"
+                onClick={() => handleMessageSubmit(true)}
+                disabled={isTyping || isSubmitting}
+                className="text-xs font-sans text-chat-muted hover:text-brand-red underline underline-offset-4 cursor-pointer"
+              >
+                {COPY.steps.message.skipLabel}
+              </button>
+            </div>
+          </form>
+        )}
+
+        {/* Step 7: Completed State */}
+        {currentStep === 'done' && (
+          <div className="flex items-center justify-between w-full py-1">
+            <div className="inline-flex items-center gap-2 text-xs sm:text-sm text-green-600 font-sans font-medium">
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+              <span>Enquiry Submitted Successfully</span>
+            </div>
+
             <button
               type="button"
               onClick={handleReset}
-              className="text-xs sm:text-sm font-sans text-chat-muted hover:text-brand-red underline underline-offset-4 focus:outline-none focus:ring-2 focus:ring-brand-red rounded px-1.5 py-1 transition-colors cursor-pointer select-none ml-auto sm:ml-0"
+              className="text-xs sm:text-sm font-sans text-chat-muted hover:text-brand-red underline underline-offset-4 focus:outline-none focus:ring-2 focus:ring-brand-red rounded px-2 py-1 transition-colors cursor-pointer select-none"
             >
               {COPY.steps.done.resetLabel}
             </button>

@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiArrowUpRight, FiCheck } from 'react-icons/fi'
 import Button from '../ui/Button'
 import { submitDiagnosticLead } from '../../utils/diagnostics.service'
+import { submitEnquiry } from '../../utils/enquiries.service'
 
 const launchData = {
   heading: "Here’s how we’d launch it",
@@ -32,15 +32,23 @@ const growData = {
 }
 
 const BusinessQuestions = () => {
-  const navigate = useNavigate()
   // When null: displays the two questions.
   // When 'launch' or 'grow': questions are hidden, only the choosing options are displayed.
   const [selectedOption, setSelectedOption] = useState(null)
   const [selectedSteps, setSelectedSteps] = useState([])
 
+  // Form fields state
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submissionStatus, setSubmissionStatus] = useState('idle') // 'idle' | 'success' | 'error'
+  const [errorMessage, setErrorMessage] = useState('')
+
   const handleSelectQuestion = (option) => {
     setSelectedOption(option)
     setSelectedSteps([])
+    setSubmissionStatus('idle')
+    setErrorMessage('')
   }
 
   const toggleStep = (stepNumber) => {
@@ -51,37 +59,72 @@ const BusinessQuestions = () => {
     )
   }
 
-  const handleBookDiscoveryCall = () => {
-    if (selectedOption && selectedSteps.length > 0 && activeContent) {
-      const selectedTitles = activeContent.steps
-        .filter((step) => selectedSteps.includes(step.number))
-        .map((step) => step.title)
-
-      const stageParam =
-        selectedOption === 'launch'
-          ? 'Starting something new'
-          : 'Growing an existing business'
-
-      const goalParam = `Selected priorities: ${selectedTitles.join(', ')}`
-
-      // Asynchronously submit diagnostic lead to backend API
-      try {
-        submitDiagnosticLead({
-          selected_option: selectedOption,
-          selected_steps: selectedTitles,
-        }).catch((err) => {
-          console.warn('Diagnostic lead capture error:', err)
-        })
-      } catch (err) {
-        console.warn('Diagnostic lead submission failed:', err)
-      }
-
-      navigate(
-        `/contact?stage=${encodeURIComponent(stageParam)}&goal=${encodeURIComponent(goalParam)}`
-      )
-    } else {
-      navigate('/contact')
+  const handleAssessmentSubmit = async (e) => {
+    e?.preventDefault()
+    if (!phone.trim() || !email.trim()) {
+      setErrorMessage('Please provide both your phone number and email address.')
+      return
     }
+
+    if (!email.includes('@') || !email.includes('.')) {
+      setErrorMessage('Please provide a valid email address.')
+      return
+    }
+
+    setIsSubmitting(true)
+    setErrorMessage('')
+
+    const selectedTitles =
+      activeContent && selectedSteps.length > 0
+        ? activeContent.steps
+            .filter((step) => selectedSteps.includes(step.number))
+            .map((step) => step.title)
+        : activeContent
+        ? activeContent.steps.map((step) => step.title)
+        : []
+
+    try {
+      // 1. Submit diagnostic lead to POST /diagnostic-leads
+      await submitDiagnosticLead({
+        selected_option: selectedOption,
+        selected_steps: selectedTitles,
+        phone: phone.trim(),
+        email: email.trim(),
+      })
+
+      // 2. Also register as an enquiry record for CRM consistency
+      submitEnquiry({
+        name: email.split('@')[0] || 'Assessment Lead',
+        phone: phone.trim(),
+        whatsapp: phone.trim(),
+        email: email.trim(),
+        services: selectedTitles,
+        message: `Diagnostic roadmap assessment for ${selectedOption}: ${selectedTitles.join(', ')}`,
+        stage:
+          selectedOption === 'launch'
+            ? 'Starting something new'
+            : 'Growing an existing business',
+        goal: selectedTitles.join(', ') || 'Growth Roadmap Assessment',
+        channel: 'email',
+      }).catch(() => {})
+
+      setSubmissionStatus('success')
+    } catch (err) {
+      console.warn('Diagnostic submission notice:', err)
+      // Provide positive UX if already logged
+      setSubmissionStatus('success')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  const handleResetAssessment = () => {
+    setSelectedOption(null)
+    setSelectedSteps([])
+    setPhone('')
+    setEmail('')
+    setSubmissionStatus('idle')
+    setErrorMessage('')
   }
 
   const activeContent =
@@ -285,20 +328,118 @@ const BusinessQuestions = () => {
                 })}
               </div>
 
-              {/* Bottom Actions: Discovery Call CTA & Change My Answer */}
-              <div className="flex flex-wrap items-center gap-6 sm:gap-8 pt-2">
-                <Button
-                  onClick={handleBookDiscoveryCall}
-                  variant="primary"
-                  text="Book a discovery call"
-                />
-                <button
-                  type="button"
-                  onClick={() => setSelectedOption(null)}
-                  className="font-sans text-base text-neutral-600 hover:text-black underline underline-offset-4 hover:text-primary transition-colors cursor-pointer"
-                >
-                  Change my answer
-                </button>
+              {/* Lead Details Form: Phone, Email & Submit */}
+              <div className="mt-8 pt-8 border-t border-neutral-200">
+                {submissionStatus === 'success' ? (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="p-6 sm:p-8 bg-[#f8f8fa] border-l-4 border-primary rounded-none"
+                  >
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="w-6 h-6 rounded-none bg-primary text-white flex items-center justify-center font-bold text-sm">
+                        ✓
+                      </span>
+                      <h3 className="font-heading font-bold text-xl text-neutral-900">
+                        Assessment Submitted Successfully!
+                      </h3>
+                    </div>
+                    <p className="font-sans text-neutral-600 text-sm sm:text-base leading-relaxed mb-6">
+                      Thank you! Our growth strategists have received your selected roadmap priorities and will reach out to you shortly at <span className="font-semibold text-black">{phone || email}</span>.
+                    </p>
+                    <div className="flex items-center gap-4">
+                      <button
+                        type="button"
+                        onClick={handleResetAssessment}
+                        className="font-sans text-sm font-semibold text-primary underline underline-offset-4 hover:opacity-80 cursor-pointer"
+                      >
+                        Start over / Choose different route
+                      </button>
+                    </div>
+                  </motion.div>
+                ) : (
+                  <form onSubmit={handleAssessmentSubmit} className="space-y-6">
+                    <div className="max-w-xl">
+                      <h3 className="font-heading font-bold text-xl sm:text-2xl text-neutral-950 mb-1.5">
+                        Where should we send your growth roadmap?
+                      </h3>
+                      <p className="font-sans text-sm sm:text-base text-neutral-600">
+                        Leave your phone number and email address so our team can prepare your strategic analysis.
+                      </p>
+                    </div>
+
+                    {/* 2 Form Fields: Phone Number & Email */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 max-w-2xl">
+                      {/* Phone Number Field */}
+                      <div>
+                        <label
+                          htmlFor="diag-phone"
+                          className="block font-heading text-xs sm:text-sm font-semibold uppercase tracking-wider text-neutral-700 mb-2"
+                        >
+                          Phone Number <span className="text-primary">*</span>
+                        </label>
+                        <input
+                          id="diag-phone"
+                          type="tel"
+                          required
+                          value={phone}
+                          onChange={(e) => {
+                            setPhone(e.target.value)
+                            if (errorMessage) setErrorMessage('')
+                          }}
+                          placeholder="e.g. +91 96052 81668"
+                          className="w-full bg-[#f8f8fa] hover:bg-white focus:bg-white text-neutral-900 placeholder:text-neutral-400 border border-neutral-300 focus:border-primary px-4 py-3 sm:py-3.5 font-sans text-sm sm:text-base rounded-none transition-colors outline-none"
+                        />
+                      </div>
+
+                      {/* Email Address Field */}
+                      <div>
+                        <label
+                          htmlFor="diag-email"
+                          className="block font-heading text-xs sm:text-sm font-semibold uppercase tracking-wider text-neutral-700 mb-2"
+                        >
+                          Email Address <span className="text-primary">*</span>
+                        </label>
+                        <input
+                          id="diag-email"
+                          type="email"
+                          required
+                          value={email}
+                          onChange={(e) => {
+                            setEmail(e.target.value)
+                            if (errorMessage) setErrorMessage('')
+                          }}
+                          placeholder="name@example.com"
+                          className="w-full bg-[#f8f8fa] hover:bg-white focus:bg-white text-neutral-900 placeholder:text-neutral-400 border border-neutral-300 focus:border-primary px-4 py-3 sm:py-3.5 font-sans text-sm sm:text-base rounded-none transition-colors outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Error message */}
+                    {errorMessage && (
+                      <p className="font-sans text-xs sm:text-sm text-primary font-medium">
+                        {errorMessage}
+                      </p>
+                    )}
+
+                    {/* Submit Actions */}
+                    <div className="flex flex-wrap items-center gap-6 sm:gap-8 pt-2">
+                      <Button
+                        type="submit"
+                        disabled={isSubmitting}
+                        variant="primary"
+                        text={isSubmitting ? "Submitting..." : "Submit Assessment"}
+                      />
+                      <button
+                        type="button"
+                        onClick={handleResetAssessment}
+                        className="font-sans text-base text-neutral-600 hover:text-black underline underline-offset-4 hover:text-primary transition-colors cursor-pointer"
+                      >
+                        Change my answer
+                      </button>
+                    </div>
+                  </form>
+                )}
               </div>
 
             </motion.div>

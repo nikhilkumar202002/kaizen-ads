@@ -38,9 +38,16 @@ export const submitEnquiry = async (payload) => {
   // Normalize and sanitize payload fields
   const formattedPayload = {
     name: payload.name?.trim() || '',
-    stage: payload.stage?.trim() || 'Not sure yet',
-    goal: payload.goal?.trim() || '',
-    channel: payload.channel === 'whatsapp' ? 'whatsapp' : 'email',
+    phone: payload.phone?.trim() || '',
+    whatsapp: payload.whatsapp?.trim() || payload.phone?.trim() || '',
+    email: payload.email?.trim() || '',
+    stage: payload.stage?.trim() || 'Growing Business',
+    goal:
+      payload.goal?.trim() ||
+      (Array.isArray(payload.services) && payload.services.length > 0
+        ? payload.services.join(', ')
+        : 'General Enquiry'),
+    channel: payload.channel || 'email',
     services: Array.isArray(payload.services) ? payload.services : [],
     message: payload.message?.trim() || payload.goal?.trim() || '',
   }

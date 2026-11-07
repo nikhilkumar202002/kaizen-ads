@@ -4,6 +4,8 @@ import apiClient from './axios.service'
  * @typedef {Object} DiagnosticPayload
  * @property {'launch' | 'grow'} selected_option - Selected business route ('launch' or 'grow')
  * @property {string[]} selected_steps - Array of chosen strategic priorities / steps
+ * @property {string} [phone] - Prospect contact phone number
+ * @property {string} [email] - Prospect email address
  */
 
 /**
@@ -30,6 +32,8 @@ export const submitDiagnosticLead = async (payload) => {
       : Array.isArray(payload.selectedSteps)
       ? payload.selectedSteps
       : [],
+    phone: payload.phone?.trim() || '',
+    email: payload.email?.trim() || '',
   }
 
   return apiClient.post('/diagnostic-leads', formattedPayload)
