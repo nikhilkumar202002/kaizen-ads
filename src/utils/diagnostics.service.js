@@ -43,3 +43,4 @@ export const diagnosticService = {
 }
 
 export default diagnosticService
+
