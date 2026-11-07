@@ -7,21 +7,21 @@ const steps = [
     stepNumber: '1',
     title: 'Discovery',
     description: 'Understand the business, challenges, customers and goals.',
-    image: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=1000&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=1000&auto=format&fit=crop&q=80',
   },
   {
     number: '02',
     stepNumber: '2',
     title: 'Strategy',
     description: 'Identify priorities, opportunities, positioning and the right growth plan.',
-    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1000&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1000&auto=format&fit=crop&q=80',
   },
   {
     number: '03',
     stepNumber: '3',
     title: 'Execution',
     description: 'Activate the right mix of marketing, branding, creative and technology.',
-    image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1000&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=1000&auto=format&fit=crop&q=80',
   },
   {
     number: '04',
@@ -35,7 +35,7 @@ const steps = [
     stepNumber: '5',
     title: 'Continuous improvement',
     description: 'Learn, refine and repeat to improve results over time.',
-    image: 'https://images.unsplash.com/photo-1509228468518-180dd4864904?w=1000&auto=format&fit=crop&q=80',
+    image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?w=1000&auto=format&fit=crop&q=80',
   },
 ]
 

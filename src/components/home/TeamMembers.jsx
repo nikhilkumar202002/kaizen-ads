@@ -15,8 +15,8 @@ const teamMembersData = [
   },
   {
     id: 'team-02',
-    name: 'Aleena Sunil',
-    designation: 'Social Media Manager',
+    name: 'Siras Khan P',
+    designation: 'Creative Director',
     image: '/Team/creative-director.jpg',
   },
   {
@@ -27,12 +27,19 @@ const teamMembersData = [
   },
   {
     id: 'team-04',
+    name: 'Aleena Sunil',
+    designation: 'Social Media Manager',
+    image:
+      'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=900&auto=format&fit=crop&q=80',
+  },
+  {
+    id: 'team-05',
     name: 'Arshada K',
     designation: 'Project Coordinator',
     image: '/Team/arshada.jpg',
   },
   {
-    id: 'team-05',
+    id: 'team-06',
     name: 'Muhammad Midlaj',
     designation: 'Graphic Designer',
     image: '/Team/midlaj.jpg',
