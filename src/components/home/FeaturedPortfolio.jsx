@@ -3,60 +3,53 @@ import Button from '../ui/Button'
 
 const projects = [
   {
-    title: 'The Red Jacket',
-    subtitle: 'Warmth that moves with you.',
+    title: "Crunchy's Gourmet",
+    subtitle: 'Brand identity & packaging design.',
+    category: 'Packaging',
+    tag: '+ Branding',
+    image: "/Portfolio/Crunchy's_01.jpg.jpeg",
+  },
+  {
+    title: 'Brand Visual Identity',
+    subtitle: 'Strategy, execution, and brand presence.',
     category: 'Branding',
-    tag: '+ Marketing',
-    image:
-      'https://images.unsplash.com/photo-1509967419530-da38b4704bc6?w=1200&auto=format&fit=crop&q=80',
+    tag: 'Identity',
+    image: '/Portfolio/01.jpg.jpeg',
   },
   {
-    title: 'Neurai AI Theme',
-    subtitle: 'Strategy, execution, and metrics.',
-    category: 'Web Design',
-    tag: 'Development',
-    image:
-      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&auto=format&fit=crop&q=80',
+    title: 'Editorial Print Publication',
+    subtitle: 'High-impact publication & advertising.',
+    category: 'Print Media',
+    tag: 'Campaign',
+    image: '/Portfolio/02.jpg.jpeg',
   },
   {
-    title: 'Social Media Impact',
-    subtitle: 'Performance meets polish.',
-    category: 'Photography',
-    tag: 'Strategy',
-    image:
-      'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=1200&auto=format&fit=crop&q=80',
-  },
-  {
-    title: 'Red Monochrome',
-    subtitle: 'Ready for the unexpected.',
-    category: 'Web Design',
+    title: 'Social Performance Creative',
+    subtitle: 'Engagement & conversion-driven storytelling.',
+    category: 'Social Media',
     tag: 'Marketing',
-    image:
-      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1200&auto=format&fit=crop&q=80',
+    image: '/Portfolio/IMG-20250717-WA0019.jpg.jpeg',
   },
   {
-    title: 'Enrichen Finance Theme',
-    subtitle: 'WordPress, HTML, and CSS',
-    category: 'UI/UX Design',
-    tag: 'Development',
-    image:
-      'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?w=1200&auto=format&fit=crop&q=80',
+    title: 'Commercial Brand Launch',
+    subtitle: 'Omnichannel creative production & reach.',
+    category: 'Campaigns',
+    tag: 'Creative',
+    image: '/Portfolio/IMG-20250911-WA0005.jpg.jpeg',
   },
   {
-    title: 'Spark AI Theme',
-    subtitle: 'Gear up and stand out.',
-    category: 'UI/UX Design',
-    tag: 'Development',
-    image:
-      'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=1200&auto=format&fit=crop&q=80',
+    title: 'Retail Packaging Suite',
+    subtitle: 'Premium box & label architecture.',
+    category: 'Packaging',
+    tag: 'Design',
+    image: "/Portfolio/Crunchy's_02.jpg.jpeg",
   },
   {
-    title: '7Host Theme',
-    subtitle: 'WordPress Development',
-    category: 'Branding',
-    tag: 'UI/UX Design',
-    image:
-      'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&auto=format&fit=crop&q=80',
+    title: 'Brand Awareness Rollout',
+    subtitle: 'Targeted media & campaign visibility.',
+    category: 'Campaigns',
+    tag: 'Growth',
+    image: '/Portfolio/IMG-20260312-WA0168.jpg.jpeg',
   },
 ]
 
@@ -209,7 +202,7 @@ const FeaturedPortfolio = () => {
         {/* Bottom CTA Action */}
         <div className="mt-8 sm:mt-12 text-center">
           <Button
-            href="#contact"
+            href="/portfolio"
             variant="primary"
             text="Explore All Work"
           />
